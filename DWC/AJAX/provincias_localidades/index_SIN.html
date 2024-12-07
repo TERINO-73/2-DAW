@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Provincias Localidades</title>
+
+    <script type="text/javascript">
+      let peti;
+      window.onload = () => {
+        peti = new XMLHttpRequest();
+        peti.onreadystatechange = recibeProvincias;
+        // Realizar peticion HTTP
+        peti.open("GET", "servidor.php?servicio=provincias");
+        peti.send(null);
+        document.getElementById("provincia").onchange = pideLocalidades;
+        
+      };
+
+      const recibeProvincias = () => {
+        if (peti.readyState == 4) {
+          if (peti.status == 200) {
+            //Aqui metemos el codigo para meter las provincias en el select
+            let prov = JSON.parse(peti.responseText);
+            let provi = document.getElementById("provincia");
+            prov.forEach((ele) => {
+              provi.appendChild(new Option(ele.NOMBRE,ele.CODIGO));
+            });
+          }
+        }
+      };
+
+      const pideLocalidades = (e)=>{
+        console.log("codigo: ",this.value);
+        console.log("e.target: " ,e.target);
+        console.log("e.target.value",e.target.value);
+        
+        peti.onreadystatechange = recibeLocalidades;
+        peti.open("GET", "servidor.php?servicio=localidades&codigop="+e.target.value);
+        peti.send(null);
+      }
+
+
+      const recibeLocalidades = () => {
+        if (peti.readyState == 4) {
+          if (peti.status == 200) {
+            //Aqui metemos el codigo para meter las provincias en el select
+            let prov = JSON.parse(peti.responseText);
+            let provi = document.getElementById("localidad");
+            provi.innerHTML= ""
+            prov.forEach((ele) => {
+              provi.appendChild(new Option(ele.NOMBRE,ele.CODIGO));
+            });
+          }
+        }
+      };
+
+
+      // function pideLocalidades(){
+      //   console.log("this: ",this);
+      //   console.log("codigo: ",this.value);
+      // }
+
+    </script>
+  </head>
+  <body>
+    <h2>Ejemplo proyecto web con JAVA y AJAX</h2>
+
+    <label for="provincia">Provincia:</label>
+    <select id="provincia"></select>
+    <br /><br />
+
+    <label for="localidad">Localidad</label>
+    <select id="localidad">
+      <option value="-1">Seleccione Provincia</option>
+    </select>
+    <br /><br />
+  </body>
+</html>

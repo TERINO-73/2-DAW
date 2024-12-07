@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Mapa con Ruta desde GPX</title>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVmqqP1yZPn8x2x0B2vWjdrikAMsUtVAU&libraries=geometry"></script>
+  <script type="text/javascript">
+    let mapa; // Variable global para el mapa
+    let polyline; // Ruta trazada en el mapa
+
+    function cargarMapa() {
+      // Configuración inicial del mapa
+      const centro = new google.maps.LatLng(36.719584, -5.251572); // Coordenadas iniciales
+      const opciones = {
+        center: centro,
+        zoom: 14,
+      };
+
+      // Crear el mapa
+      mapa = new google.maps.Map(document.getElementById("divmapa"), opciones);
+
+      // Inicializar la polyline para dibujar la ruta
+      polyline = new google.maps.Polyline({
+        map: mapa,
+        path: [], // Ruta inicial vacía
+        geodesic: true,
+        strokeColor: "#FF0000", // Color de la línea
+        strokeOpacity: 1.0,
+        strokeWeight: 2,
+      });
+    }
+
+    function Leer_Fichero(evento) {
+      const fichero = evento.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        const miXml = Convertir_a_XML(reader.result);
+        tratarXML(miXml);
+      };
+
+      function Convertir_a_XML(texto) {
+        return new DOMParser().parseFromString(texto, "application/xml");
+      }
+
+      reader.readAsText(fichero);
+    }
+
+    function tratarXML(xml) {
+      const trkpt = xml.getElementsByTagName("trkpt");
+
+      if (trkpt.length === 0) {
+        alert("El archivo GPX no contiene puntos de ruta (trkpt).");
+        return;
+      }
+
+      const ruta = [];
+      const bounds = new google.maps.LatLngBounds();
+      let distanciaTotal = 0; // Distancia total en km
+      let tiempoTotal = 0; // Tiempo total en segundos
+
+      for (let i = 0; i < trkpt.length; i++) {
+        const latitud = parseFloat(trkpt[i].getAttribute("lat"));
+        const longitud = parseFloat(trkpt[i].getAttribute("lon"));
+        const posicion = new google.maps.LatLng(latitud, longitud);
+        datos[i]= latitud;
+        i++
+        ruta.push(posicion);
+        bounds.extend(posicion);
+
+        // Calcular distancia entre puntos consecutivos
+        if (i > 0) {
+          const anterior = ruta[i - 1];
+          distanciaTotal += google.maps.geometry.spherical.computeDistanceBetween(anterior, posicion) / 1000; // En km
+        }
+
+        // Calcular tiempo entre puntos consecutivos
+        const tiempoActual = trkpt[i].getElementsByTagName("time")[0];
+        if (tiempoActual) {
+          const fechaActual = new Date(tiempoActual.textContent.trim());
+          const tiempoAnterior = trkpt[i - 1]?.getElementsByTagName("time")[0];
+          if (tiempoAnterior) {
+            const fechaAnterior = new Date(tiempoAnterior.textContent.trim());
+            tiempoTotal += (fechaActual - fechaAnterior) / 1000; // En segundos
+          }
+        }
+      }
+
+      // Si el tiempo total es inválido o 0, asumir una duración estimada
+      if (tiempoTotal === 0) tiempoTotal = (distanciaTotal / 5) * 3600; // Asume 5 km/h como velocidad promedio
+
+      // Calcular velocidad media en km/h
+      const velocidadMedia = (distanciaTotal / (tiempoTotal / 3600)).toFixed(2);
+
+      // Convertir tiempo total a un formato legible
+      const horas = Math.floor(tiempoTotal / 3600);
+      const minutos = Math.floor((tiempoTotal % 3600) / 60);
+      const segundos = Math.floor(tiempoTotal % 60);
+      const duracionLegible = `${horas}h ${minutos}m ${segundos}s`;
+
+      // Actualizar polyline y mapa
+      polyline.setPath(ruta);
+      mapa.fitBounds(bounds);
+
+      // Marcadores de inicio y fin
+      new google.maps.Marker({
+        position: ruta[0],
+        map: mapa,
+        title: "Inicio de la Ruta",
+        icon: "https://maps.google.com/mapfiles/ms/icons/green-dot.png",
+      });
+
+      new google.maps.Marker({
+        position: ruta[ruta.length - 1],
+        map: mapa,
+        title: "Fin de la Ruta",
+        icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+      });
+
+      // Mostrar información de la ruta
+      const informacionRuta = `
+        <p><strong>Distancia Total:</strong> ${distanciaTotal.toFixed(2)} km</p>
+        <p><strong>Duración Total:</strong> ${duracionLegible}</p>
+        <p><strong>Velocidad Media:</strong> ${velocidadMedia} km/h</p>
+      `;
+      document.getElementById("infoRuta").innerHTML = informacionRuta;
+    }
+
+    window.onload = function () {
+      cargarMapa();
+      document.getElementById("id_fichero").addEventListener('change', Leer_Fichero);
+    };
+  </script>
+</head>
+
+<body>
+  <h3>Mapa con Ruta desde un Archivo GPX</h3>
+  <input type="file" id="id_fichero" />
+  <div id="infoRuta"></div>
+  <div id="divmapa" style="height: 500px; width: 100%;">Cargando mapa...</div>
+</body>
+
+</html>

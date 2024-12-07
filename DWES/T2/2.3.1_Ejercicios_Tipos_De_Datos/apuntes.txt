@@ -1,0 +1,66 @@
+<?php
+// Definición de la matriz global de clases
+$clases_gimnasio = [
+    'yoga' => [
+        'lunes' => ['hora' => '19:00', 'plazas_totales' => 20, 'plazas_disponibles' => 20, 'plazas_reservadas' => 0],
+        'miércoles' => ['hora' => '08:00', 'plazas_totales' => 20, 'plazas_disponibles' => 20, 'plazas_reservadas' => 0],
+        'viernes' => ['hora' => '10:00', 'plazas_totales' => 20, 'plazas_disponibles' => 20, 'plazas_reservadas' => 0],
+    ],
+    // Más clases...
+];
+
+function reservar_plaza(&$clase, $dia) {
+    global $clases_gimnasio;
+    if ($clases_gimnasio[$clase][$dia]['plazas_disponibles'] > 0) {
+        $clases_gimnasio[$clase][$dia]['plazas_disponibles']--;
+        $clases_gimnasio[$clase][$dia]['plazas_reservadas']++;
+        return true;
+    }
+    return false;
+}
+
+function liberar_plaza(&$clase, $dia) {
+    global $clases_gimnasio;
+    if ($clases_gimnasio[$clase][$dia]['plazas_reservadas'] > 0) {
+        $clases_gimnasio[$clase][$dia]['plazas_disponibles']++;
+        $clases_gimnasio[$clase][$dia]['plazas_reservadas']--;
+        return true;
+    }
+    return false;
+}
+?>
+
+<?php
+session_start();
+include 'horario.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clase'], $_POST['dia'], $_POST['accion'])) {
+    $clase = $_POST['clase'];
+    $dia = $_POST['dia'];
+    $accion = $_POST['accion'];
+
+    if ($accion === 'reservar') {
+        if (reservar_plaza($clase, $dia)) {
+            echo "Reserva confirmada para $clase el $dia.";
+        } else {
+            echo "No quedan plazas disponibles para $clase el $dia.";
+        }
+    } elseif ($accion === 'cancelar') {
+        if (liberar_plaza($clase, $dia)) {
+            echo "Reserva cancelada para $clase el $dia.";
+        } else {
+            echo "No hay reservas para cancelar en $clase el $dia.";
+        }
+    }
+} else {
+    echo "Por favor, selecciona una clase y horario válidos.";
+}
+?>
+<?php
+if ($accion === 'reservar' || $accion === 'cancelar') {
+    $resultado = "Clase: $clase\nDía: $dia\nAcción: $accion";
+    file_put_contents('resultado_seleccion.txt', $resultado);
+    echo "<a href='resultado_seleccion.txt' download>Descargar resultado</a>";
+}
+?>
+

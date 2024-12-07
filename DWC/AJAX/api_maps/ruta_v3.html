@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leer Fichero XML</title>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVmqqP1yZPn8x2x0B2vWjdrikAMsUtVAU"></script>
+
+    <script type="text/javascript">
+        let mapa; // Variable global para el mapa
+        let polyline; // Ruta trazada en el mapa
+    
+        function cargarMapa() {
+          // Configuración inicial del mapa
+          const centro = new google.maps.LatLng(36.719584, -5.251572); // Coordenadas iniciales
+          const opciones = {
+            center: centro,
+            zoom: 14,
+          };
+    
+          // Crear el mapa
+          mapa = new google.maps.Map(document.getElementById("divmapa"), opciones);
+    
+          // Inicializar la polyline para dibujar la ruta
+          polyline = new google.maps.Polyline({
+            map: mapa,
+            path: [], // Ruta inicial vacía
+            geodesic: true,
+            strokeColor: "#FF0000", // Color de la línea
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+          });
+        }
+    
+        function Leer_Fichero(evento) {
+          const fichero = evento.target.files[0];
+          const reader = new FileReader();
+    
+          reader.onload = function () {
+            const miXml = Convertir_a_XML(reader.result);
+            tratarXML(miXml);
+          };
+    
+          function Convertir_a_XML(texto) {
+            return new DOMParser().parseFromString(texto, "text/xml");
+          }
+    
+          reader.readAsText(fichero);
+        }
+    
+        function tratarXML(xml) {
+          // Captura todos los puntos <trkpt> (trackpoints) para la ruta
+          const trkpt = xml.getElementsByTagName("trkpt");
+    
+          if (trkpt.length === 0) {
+            alert("El archivo XML no contiene puntos de ruta (trkpt).");
+            return;
+          }
+    
+          const ruta = []; // Array para almacenar la ruta
+          const bounds = new google.maps.LatLngBounds(); // Límites de la vista del mapa
+    
+          // Procesa cada punto de la ruta
+          for (let i = 0; i < trkpt.length; i++) {
+            const latitud = parseFloat(trkpt[i].getAttribute("lat"));
+            const longitud = parseFloat(trkpt[i].getAttribute("lon"));
+            const posicion = new google.maps.LatLng(latitud, longitud);
+    
+            // Añade la posición al array de la ruta
+            ruta.push(posicion);
+    
+            // Expande los límites del mapa para incluir este punto
+            bounds.extend(posicion);
+          }
+    
+          // Actualiza la polyline con la ruta completa
+          polyline.setPath(ruta);
+    
+          // Centra y ajusta el mapa para que la ruta sea completamente visible
+          mapa.fitBounds(bounds);
+    
+          // Añade marcadores en los puntos de inicio y fin
+          new google.maps.Marker({
+            position: ruta[0], // Primer punto
+            map: mapa,
+            title: "Inicio de la Ruta",
+            icon: "https://maps.google.com/mapfiles/ms/icons/green-dot.png",
+          });
+    
+          new google.maps.Marker({
+            position: ruta[ruta.length - 1], // Último punto
+            map: mapa,
+            title: "Fin de la Ruta",
+            icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+          });
+        }
+    
+        window.onload = function () {
+          cargarMapa();
+          document.getElementById("id_fichero").addEventListener('change', Leer_Fichero);
+        };
+      </script>
+    </head>
+    
+    <body>
+      <h3>Mapa con Ruta desde un Archivo XML</h3>
+      <input type="file" id="id_fichero" />
+      <div id="divmapa">Cargando mapa...</div>
+    </body>
+    
+    </html>
+

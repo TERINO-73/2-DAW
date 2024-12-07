@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manual de Servidores Java EE</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Manual de Configuración de Servidores Java EE</h1>
+      <nav>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li>
+            <a href="#">Servidores</a>
+            <ul class="submenu">
+              <li><a href="#tomcat">Apache Tomcat</a></li>
+              <li><a href="#wildfly">WildFly</a></li>
+              <li><a href="#glassfish">GlassFish</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="carousel">
+      <section id="inicio" class="scroll">
+        <h2>Bienvenido al Manual</h2>
+        <p>
+          Este manual está diseñado para guiarte paso a paso en la instalación y configuración de tres de los servidores más importantes para aplicaciones empresariales en Java EE: Apache Tomcat, WildFly y GlassFish. Cada servidor tiene características únicas que los hacen adecuados para diferentes tipos de proyectos. Aquí encontrarás información detallada para comenzar desde cero, incluyendo requisitos, pasos de instalación y configuraciones avanzadas.
+        </p>
+      
+        <h3>¿Qué es Java EE?</h3>
+        <p>
+          Java Platform, Enterprise Edition (Java EE) es una plataforma robusta y escalable para el desarrollo de aplicaciones empresariales en Java. Proporciona un conjunto de especificaciones y servicios que simplifican el desarrollo de aplicaciones distribuidas y basadas en la web. Java EE es ideal para proyectos que requieren:
+        </p>
+        <ul>
+          <li>Escalabilidad para manejar grandes cantidades de usuarios simultáneos.</li>
+          <li>Interoperabilidad con otros sistemas y servicios.</li>
+          <li>Soporte para estándares empresariales como EJB, JPA y JAX-RS.</li>
+        </ul>
+      
+        <h3>¿Por qué elegir estos servidores?</h3>
+        <p>
+          La elección del servidor adecuado es crucial para el éxito de tu proyecto. Este manual cubre tres servidores populares que ofrecen un equilibrio entre simplicidad, funcionalidad y rendimiento:
+        </p>
+        <ol>
+          <li>
+            <span>Apache Tomcat:</span> Un servidor ligero y fácil de usar, ideal para proyectos pequeños y medianos. Tomcat soporta tecnologías básicas de Java como Servlets y JSP, lo que lo hace perfecto para aplicaciones web estándar.
+          </li>
+          <li>
+            <span>WildFly:</span> Un servidor altamente configurable y orientado a aplicaciones empresariales. Ofrece soporte para especificaciones avanzadas de Java EE como EJB, JPA y JMS.
+          </li>
+          <li>
+            <span>GlassFish:</span> El servidor de referencia para Java EE, conocido por su compatibilidad completa con todas las especificaciones y su robustez en aplicaciones empresariales.
+          </li>
+        </ol>
+      
+        <h3>¿Qué aprenderás?</h3>
+        <p>
+          En este manual, aprenderás a instalar, configurar y personalizar cada uno de estos servidores. Además, obtendrás consejos prácticos para optimizar su uso y sacar el máximo provecho de sus características.
+        </p>
+        <ul>
+          <li>Cómo preparar tu entorno de desarrollo con las herramientas necesarias.</li>
+          <li>Los pasos detallados para instalar cada servidor.</li>
+          <li>Configuraciones avanzadas para mejorar el rendimiento y la seguridad.</li>
+          <li>Cómo desplegar aplicaciones web en cada servidor.</li>
+        </ul>
+      
+        <h3>¿A quién va dirigido este manual?</h3>
+        <p>
+          Este manual está pensado para desarrolladores de todos los niveles, desde principiantes hasta expertos. Si eres un estudiante, profesional o simplemente alguien interesado en aprender sobre servidores Java EE, este manual te será útil. No se requieren conocimientos previos avanzados, aunque algo de familiaridad con Java será de ayuda.
+        </p>
+      
+        <h3>Recomendaciones antes de comenzar</h3>
+        <p>
+          Antes de adentrarte en la configuración de los servidores, asegúrate de cumplir con los siguientes requisitos:
+        </p>
+        <ul>
+          <li>Tener instalado un JDK compatible (se recomienda JDK 11 o superior).</li>
+          <li>Familiaridad básica con la línea de comandos de tu sistema operativo.</li>
+          <li>Acceso a una conexión a internet para descargar los paquetes necesarios.</li>
+          <li>Una comprensión general del ciclo de vida de las aplicaciones web.</li>
+        </ul>
+        <p>
+          Con todo listo, ¡comencemos este emocionante recorrido hacia la configuración de tus servidores Java EE!
+        </p>
+      </section>
+
+      <section id="tomcat" class="scroll">
+        <h2>Apache Tomcat</h2>
+        <p>
+          Apache Tomcat es un contenedor ligero de servlets que soporta
+          tecnologías Java como Servlets y JSP (Java Server Pages). Es
+          ampliamente utilizado en aplicaciones web de pequeña y mediana escala
+          debido a su simplicidad y velocidad.
+        </p>
+
+        <h3>Requisitos previos</h3>
+        <ul>
+          <li>
+            <span>Java Development Kit (JDK):</span> Asegúrate de tener
+            instalado el JDK 11 o superior. Puedes instalarlo con el siguiente
+            comando:
+          </li>
+          <pre><p>sudo apt install openjdk-11-jdk</p></pre>
+          <li>
+            <span>Variable de entorno JAVA_HOME:</span> Configura JAVA_HOME en
+            tu archivo <p>~/.bashrc</p> con:
+          </li>
+          <pre><p>export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64</p></pre>
+        </ul>
+
+        <h3>Pasos de Instalación</h3>
+        <ol>
+          <li>
+            <span>Descarga Tomcat:</span> Ve al
+            <a href="https://tomcat.apache.org" target="_blank"
+              >sitio oficial de Apache Tomcat</a>
+            y descarga la última versión de Tomcat.
+          </li>
+          <pre><p>wget https://downloads.apache.org/tomcat/tomcat-10/v10.0.30/bin/apache-tomcat-10.0.30.tar.gz</p></pre>
+
+          <li><span>Descomprime y configura:</span></li>
+          <pre><p>tar -xvzf apache-tomcat-10.0.30.tar.gz</p></pre>
+          <pre><p>sudo mv apache-tomcat-10.0.30 /opt/tomcat</p></pre>
+
+          <li>
+            <span>Establece permisos:</span> Asegúrate de que todos los scripts
+            sean ejecutables.
+          </li>
+          <pre><p>sudo chmod +x /opt/tomcat/bin/*.sh</p></pre>
+
+          <li><span>Inicia Tomcat:</span> Lanza el servidor Tomcat con:</li>
+          <pre><p>/opt/tomcat/bin/startup.sh</p></pre>
+
+          <li>
+            <span>Accede a la consola:</span> Visita
+            <p>http://localhost:8080</p> en tu navegador.
+          </li>
+        </ol>
+
+        <h3>Configuraciones Avanzadas</h3>
+        <p>
+          Una vez que Tomcat esté instalado, puedes personalizarlo para que se
+          ajuste mejor a tus necesidades:
+        </p>
+        <ul>
+          <li>
+            <span>Usuario administrador:</span> Para gestionar el servidor desde
+            la web, edita el archivo <p>conf/tomcat-users.xml</p> y añade
+            las siguientes líneas:
+          </li>
+          <pre><p>role rolename="manager-gui"
+    user username="admin" password="password" roles="manager-gui"</p></pre>
+
+          <li>
+            <span>Despliegue de aplicaciones:</span> Copia los archivos
+            <p>.war</p> en el directorio <p>webapps</p> de Tomcat.
+            Al reiniciar el servidor, Tomcat desplegará automáticamente las
+            aplicaciones.
+          </li>
+        </ul>
+      </section>
+
+      <section id="wildfly" class="scroll">
+        <h2>WildFly</h2>
+        <p>
+          WildFly es ideal para aplicaciones empresariales, compatible con EJB,
+          JPA y muchos servicios distribuidos. Ofrece una mayor flexibilidad y
+          escalabilidad para proyectos grandes.
+        </p>
+
+        <h3>Requisitos previos</h3>
+        <ul>
+          <li>
+            <span>Java JDK:</span> Instala el JDK más reciente desde
+            <a
+              href="https://www.oracle.com/java/technologies/javase-downloads.html"
+              target="_blank"
+              >Oracle</a
+            >
+            o usa una distribución abierta como OpenJDK.
+          </li>
+          <li>
+            <span>Configuración del PATH:</span> Asegúrate de configurar la
+            variable <p>JAVA_HOME</p> correctamente y añadirla al
+            <p>PATH</p>.
+          </li>
+        </ul>
+
+        <h3>Pasos de Instalación</h3>
+        <ol>
+          <li>
+            <span>Descarga WildFly:</span> Dirígete a la página de
+            <a href="https://www.wildfly.org" target="_blank">WildFly</a> y
+            descarga la última versión.
+          </li>
+          <pre><p>unzip wildfly-x.y.z.zip -d C:/WildFly</p></pre>
+
+          <li>
+            <span>Inicia el servidor:</span> Abre una terminal y navega al
+            directorio <p>/bin</p> de WildFly. Luego, ejecuta:
+          </li>
+          <pre><p>cd C:/WildFly/bin
+standalone.bat</p></pre>
+
+          <li>
+            <span>Accede a la consola:</span> Abre el navegador y accede a la
+            consola administrativa en <p>http://localhost:9990</p>.
+          </li>
+        </ol>
+
+        <h3>Configuraciones Avanzadas</h3>
+        <p>WildFly también permite una amplia personalización:</p>
+        <ul>
+          <li>
+            <span>Añadir usuarios:</span> Usa el script
+            <p>add-user.bat</p> para añadir administradores, operadores y
+            usuarios de la consola.
+          </li>
+
+          <li>
+            <span>Despliegue automatizado:</span> Copia tus aplicaciones en el
+            directorio <p>standalone/deployments</p> para que WildFly las
+            despliegue automáticamente al iniciar.
+          </li>
+        </ul>
+      </section>
+
+      <section id="glassfish" class="scroll">
+        <h2>GlassFish</h2>
+        <p>
+          GlassFish es el servidor de referencia para Java EE. Ofrece soporte
+          completo para todas las especificaciones de Java EE y es conocido por
+          su robustez y facilidad de uso.
+        </p>
+
+        <h3>Requisitos previos</h3>
+        <ul>
+          <li>
+            <span>Java JDK:</span> Debes tener instalado el JDK, preferiblemente
+            la versión 8 o superior, que es compatible con GlassFish.
+          </li>
+          <li>
+            <span>Variables de entorno:</span> Configura las variables de
+            entorno <p>JAVA_HOME</p> y <p>GLASSFISH_HOME</p>.
+          </li>
+        </ul>
+
+        <h3>Pasos de Instalación</h3>
+        <ol>
+          <li>
+            <span>Descarga GlassFish:</span> Ve a la página oficial de
+            <a href="https://javaee.github.io/glassfish/" target="_blank"
+              >GlassFish</a
+            >
+            y descarga la última versión.
+          </li>
+
+          <li>
+            <span>Instalación:</span> Extrae el archivo y ejecuta el instalador.
+            Asegúrate de elegir las opciones predeterminadas para una
+            instalación sencilla.
+          </li>
+          <pre><p>tar -xvzf glassfish-x.y.z.tar.gz</p></pre>
+
+          <li>
+            <span>Iniciar el servidor:</span> Abre una terminal y ejecuta el
+            siguiente comando para iniciar GlassFish:
+          </li>
+          <pre><p>asadmin start-domain</p></pre>
+
+          <li>
+            <span>Acceder a la consola:</span> Abre tu navegador y visita
+            <p>http://localhost:4848</p>.
+          </li>
+        </ol>
+
+        <h3>Configuraciones Avanzadas</h3>
+        <ul>
+          <li>
+            <span>Crear usuarios:</span> Utiliza el comando
+            <p>asadmin create-user</p> para crear usuarios administrativos
+            y operadores.
+          </li>
+
+          <li>
+            <span>Despliegue de aplicaciones:</span> Similar a los otros
+            servidores, coloca tus archivos <p>.war</p> en el directorio
+            <p>domains/domain1/autodeploy</p>.
+          </li>
+        </ul>
+      </section>
+    </div>
+    <footer>
+        <div class="road">
+            <p class="coche">Trabajo realizado por Jesús Terino Rodriguez</p>
+        </div>
+    </footer>
+
+  </body>
+</html>

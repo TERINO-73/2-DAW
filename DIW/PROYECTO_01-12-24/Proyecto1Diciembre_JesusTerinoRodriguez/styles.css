@@ -1,0 +1,131 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: rgb(167, 150, 109);
+    color: #333;
+    line-height: 1.6;
+}
+span{
+    font-weight: bold;
+    color: rgb(194, 180, 146);
+}
+
+header {
+    background-color: rgb(135, 109, 44);
+    padding: 20px;
+    color: #fff;
+    text-align: center;
+}
+header h1 {
+    font-size: 2rem;
+}
+
+
+nav ul {
+    list-style: none;
+    text-align: center;
+}
+nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+nav ul li a:hover {
+    background-color:rgb(214, 180, 96) ;
+}
+nav ul li:hover {
+    background-color:rgb(214, 180, 96) ;
+}
+ 
+nav .submenu {
+    display: none;
+    position: absolute;
+    background-color: rgb(214, 180, 96);
+    padding: 10px;
+    list-style: none;
+    min-width: 150px;
+    border-radius: 8px;
+    border: 1px solid black;
+}
+nav ul li:hover .submenu {
+    display: block;
+}
+
+.carousel {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 20px;
+}
+
+.scroll {
+    min-height: 100vh;
+    flex: 0 0 80%;
+    scroll-snap-align: center;
+    background-color: rgb(225, 213, 184);
+    padding: 30px;
+    margin-right: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+    font-size: 2rem;
+    color: rgb(135, 109, 44);
+    margin-bottom: 20px;
+}
+section h3 {
+    font-size: 1.5rem;
+    color: rgb(135, 109, 44);
+    margin-top: 20px;
+}
+
+pre p {
+    background-color: #ecf0f1;
+    padding: 15px;
+    border-radius: 5px;
+    display: block;
+    overflow-x: auto; 
+    word-wrap: break-word; 
+    white-space: pre-wrap; 
+    margin: 10px 0; 
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: 100%; 
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: rgb(135, 109, 44);
+    color: #fff;
+    
+}
+.rodar{
+    position: relative;
+  }
+  .coche {
+    position: absolute;
+    top: 50%;
+    left: -200px; 
+    transform: translateY(-50%);
+    animation: paLaDerecha 5s linear infinite;
+  }
+  @keyframes paLaDerecha {
+    0% {
+      left: -200px; 
+    }
+    100% {
+      left: 1920px; 
+    }
+  }

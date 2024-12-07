@@ -1,0 +1,89 @@
+<?php
+session_start();
+
+// Verifica si el usuario ha iniciado sesión
+if (!isset($_SESSION['usuario'])) {
+    header("Location: index.php");
+    exit();
+}
+
+// Mensaje de bienvenida
+echo "<h1>Bienvenido, " . htmlspecialchars($_SESSION['usuario']) . "!</h1>";
+
+// Enlace a la página de selección de clases
+echo "<a href='clases.php'>Seleccionar clase y horario</a>";
+
+// Botón para cerrar sesión
+echo "<form action='logout.php' method='post'>
+        <button type='submit'>Cerrar sesión</button>
+      </form>";
+?>
+<?php
+session_start();
+include 'horario.php';
+
+// Verifica si el usuario ha iniciado sesión
+if (!isset($_SESSION['usuario'])) {
+    header("Location: index.php");
+    exit();
+}
+
+// Muestra las clases con opciones de reserva
+echo "<h2>Selecciona una clase y horario</h2>";
+
+echo "<form action='procesar_formulario.php' method='post'>
+        <label for='clase'>Clase:</label>
+        <select name='clase' id='clase'>
+            <option value='yoga'>Yoga</option>
+            <option value='zumba'>Zumba</option>
+            <option value='crossfit'>Crossfit</option>
+        </select>
+        
+        <label for='dia'>Día:</label>
+        <select name='dia' id='dia'>
+            <option value='lunes'>Lunes</option>
+            <option value='miércoles'>Miércoles</option>
+            <option value='viernes'>Viernes</option>
+        </select>
+        
+        <label for='accion'>Acción:</label>
+        <select name='accion' id='accion'>
+            <option value='reservar'>Reservar</option>
+            <option value='cancelar'>Cancelar</option>
+        </select>
+        
+        <button type='submit'>Enviar</button>
+      </form>";
+?>
+<?php
+session_start();
+include 'horario.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clase'], $_POST['dia'], $_POST['accion'])) {
+    $clase = $_POST['clase'];
+    $dia = $_POST['dia'];
+    $accion = $_POST['accion'];
+
+    if ($accion === 'reservar') {
+        if (reservar_plaza($clase, $dia)) {
+            echo "Reserva confirmada para $clase el $dia.";
+        } else {
+            echo "No quedan plazas disponibles para $clase el $dia.";
+        }
+    } elseif ($accion === 'cancelar') {
+        if (liberar_plaza($clase, $dia)) {
+            echo "Reserva cancelada para $clase el $dia.";
+        } else {
+            echo "No hay reservas para cancelar en $clase el $dia.";
+        }
+    }
+
+    // Opción para descargar en .txt
+    $resultado = "Clase: $clase\nDía: $dia\nAcción: $accion";
+    file_put_contents('resultado_seleccion.txt', $resultado);
+    echo "<a href='resultado_seleccion.txt' download>Descargar resultado</a>";
+} else {
+    echo "Por favor, selecciona una clase y horario válidos.";
+}
+?>
+

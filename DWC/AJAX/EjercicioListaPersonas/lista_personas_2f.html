@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Ejercicio Listado Personas. AJAX</title>
+	<style type="text/css">
+		h3 {
+			color: red;
+		}
+
+		/* CSS para el formulario:   */
+		.formPersonas {
+			visibility: hidden;
+			position: absolute;
+			top: 20%;
+			left: 20%;
+			z-index: 11;
+			background-color: pink;
+			border: 2px solid maroon;
+			border-radius: 15px;
+			padding: 1em;
+			color: red;
+		}
+
+		.formPersonas div label {
+			display: block;
+			margin-top: 0.5em;
+		}
+
+		.formPersonas .btn {
+			display: block;
+			margin-top: 1em;
+		}
+
+		.ver {
+			visibility: visible;
+			opacity: 1;
+		}
+	</style>
+	<script type="text/javascript" src="util2Ajax.js"></script>
+	<script type="text/javascript">
+		var peti = new pAJAX(); // Instanciamos nuestra clase pAJAX
+		var url = "servidor.php";
+
+		// Cuando carge la página
+		window.onload = () => {
+			cargarTabla();
+			var botonAna = document.getElementById("btNuevaPersona");
+			botonAna.onclick = ver;
+			var botonMet = document.getElementById("btAnade");
+			var botonCan = document.getElementById("btCancelar");
+			var botonEd = document.getElementById("btAnadeMod");
+			var botonCanMod= document.getElementById("btCancelarMod");
+			botonCanMod.onclick = desapareceMod;
+			botonEd.onclick = editaPersona;
+			botonMet.onclick = anades;
+			botonCan.onclick = desaparece;
+		};
+
+		function ver() {
+			var div = document.getElementById("formPersonas");
+			div.classList.add("ver");
+		}
+
+		function desaparece() {
+			var div = document.getElementById("formPersonas");
+			div.classList.remove("ver");
+		}
+
+		function verMod() {
+			var div = document.getElementById("formPersonasMod");
+			div.classList.add("ver");
+		}
+
+		function desapareceMod() {
+			var div = document.getElementById("formPersonasMod");
+			div.classList.remove("ver");
+		}
+
+		function cargarTabla() {
+			var p = {
+				servicio: "listar",
+			};
+			p = JSON.stringify(p);
+			peti.peticion(url, "post", MuestraPersonas, p);
+		}
+
+		function MuestraPersonas(datos) {
+			console.log("Datos recibidos del servidor:", datos);
+			let personas = JSON.parse(datos);
+			pintaPersonas(personas);
+		}
+
+		const pintaPersonas = (persona) => {
+			let tabla = document.getElementById("filas_tabla"); // Obtener la tabla
+
+			// Limpiamos la tabla antes de rellenar
+			tabla.innerHTML = "";
+
+			// Iterar sobre cada persona
+			persona.forEach((elemento) => {
+				var tr = document.createElement("tr"); // Crear la fila
+
+				// ID
+				var tdID = document.createElement("td"); // Columna ID
+				tdID.innerHTML = elemento.ID;
+				tr.appendChild(tdID);
+
+				// DNI
+				var tdDNI = document.createElement("td"); // Columna DNI
+				tdDNI.innerHTML = elemento.DNI;
+				tr.appendChild(tdDNI);
+
+				// Nombre
+				var tdNombre = document.createElement("td");
+				tdNombre.innerHTML = elemento.NOMBRE;
+				tr.appendChild(tdNombre);
+
+				// Apellidos
+				var tdApellidos = document.createElement("td");
+				tdApellidos.innerHTML = elemento.APELLIDOS;
+				tr.appendChild(tdApellidos);
+
+				// Botón de borrar
+				var tdBorrar = document.createElement("td");
+				var btnBorrar = document.createElement("button");
+				btnBorrar.textContent = "Borrar";
+				btnBorrar.dataset.idpersona = elemento.ID;
+				btnBorrar.dataset.nombreape =
+					elemento.NOMBRE + " " + elemento.APELLIDOS;
+				btnBorrar.onclick = borrarPersona; // Asignar la función borrarPersona
+				tdBorrar.appendChild(btnBorrar);
+				tr.appendChild(tdBorrar);
+
+				// Botón de editar
+				var tdEditar = document.createElement("td");
+				var btnEditar = document.createElement("button");
+				btnEditar.textContent = "Editar";
+				btnEditar.dataset.idpersona = elemento.ID;
+				console.log(btnEditar.dataset.idpersona);
+				btnEditar.onclick = editarPersona;
+				tdEditar.appendChild(btnEditar);
+				tr.appendChild(tdEditar);
+
+				// Agregar la fila a la tabla
+				tabla.appendChild(tr);
+			});
+		};
+
+		function borrarPersona(e) {
+			e.preventDefault();
+			if (confirm("¿Deseas eliminar a '" + this.dataset.nombreape + "'?")) {
+				var p = {
+					servicio: "borrar",
+					id: this.dataset.idpersona,
+				};
+				p = JSON.stringify(p);
+				// Hacer la solicitud para borrar la persona
+				peti.peticion(
+					url,
+					"post",
+					(respuesta) => {
+						console.log("Respuesta del servidor: ", respuesta);
+						// Recargar la tabla después de borrar
+						cargarTabla();
+					},
+					p
+				);
+			}
+		}
+
+		function anades() {
+			var dni = document.getElementById("dni").value;
+			var nombre = document.getElementById("nombre").value;
+			var apellidos = document.getElementById("apellidos").value;
+
+			var p = {
+				servicio: "insertar",
+				dni: dni,
+				nombre: nombre,
+				apellidos: apellidos,
+			};
+			p = JSON.stringify(p);
+
+			peti.peticion(
+				url,
+				"post",
+				(respuesta) => {
+					console.log("Respuesta del servidor: ", respuesta);
+					// Recargar la tabla después de borrar
+					cargarTabla();
+				},
+				p
+			);
+				desaparece();
+		}
+		function editarPersona(e){
+			e.preventDefault();
+			var p = {
+				servicio: "selPersonaID",
+				id: this.dataset.idpersona,
+			}
+			peti.peticion(url,"post",llenaForm,JSON.stringify(p));
+		}
+
+		function llenaForm(datos){
+			document.getElementById("dniMod").value = datos.DNI;
+			document.getElementById("nombreMod").value = datos.NOMBRE;
+			document.getElementById("apellidosMod").value = datos.APELLIDOS;
+		}
+
+		function limpiaForm(){
+			document.getElementById("dniMod").value = "";
+			document.getElementById("nombreMod").value = "";
+			document.getElementById("apellidosMod").value = "";
+			
+		}
+		function editaPersona(e) {
+			e.preventDefault();
+			var p = {
+				servicio: "modificar",
+				id:this.dataset.idpersona,
+				dni: document.getElementById("dniMod").value,
+				nombre: document.getElementById("nombreMod").value,
+				apellidos: document.getElementById("apellidosMod").value,
+			};
+			peti.peticion(url,"post",MuestraPersonas,JSON.stringify(p));
+			var div = document.getElementById("formPersonas");
+
+			desapareceMod();
+		}
+	</script>
+</head>
+
+<body>
+	<h3>Registro de Usuarios</h3>
+
+	<div id="formPersonas" class="formPersonas">
+		<fieldset>
+			<legend>Alta en el servicio</legend>
+			<div>
+				<label for="dni">DNI</label>
+				<input type="text" id="dni" size="10" maxlength="9" value="27473339T" />
+			</div>
+			<div>
+				<label for="nombre">Nombre</label>
+				<input type="text" id="nombre" value="Marco Elio" />
+			</div>
+			<div>
+				<label for="apellidos">Apellidos</label>
+				<input type="text" id="apellidos" size="40" value="García Gomariz" />
+			</div>
+			<div class="btn">
+				<button id="btAnade">Añadir</button>
+				<button id="btCancelar">Cancelar</button>
+			</div>
+		</fieldset>
+	</div>
+	<div id="formPersonasMod" class="formPersonas">
+		<fieldset>
+			<legend>Edita</legend>
+			<div>
+				<label for="dni">DNI</label>
+				<input type="text" id="dniMod" size="10" maxlength="9" value="27473339T" />
+			</div>
+			<div>
+				<label for="nombre">Nombre</label>
+				<input type="text" id="nombreMod" value="Marco Elio" />
+			</div>
+			<div>
+				<label for="apellidos">Apellidos</label>
+				<input type="text" id="apellidosMod" size="40" value="García Gomariz" />
+			</div>
+			<div class="btn">
+				<button id="btAnadeMod">Editar</button>
+				<button id="btCancelarMod">Cancelar</button>
+			</div>
+		</fieldset>
+	</div>
+	<br />
+	<button class="btn" id="btNuevaPersona">Nueva persona</button>
+	<br /><br />
+	<table id="tabla_personas" border="1">
+		<tr>
+			<th>ID</th>
+			<th>DNI</th>
+			<th>NOMBRE</th>
+			<th>APELLIDOS</th>
+			<th>Borrar</th>
+			<th>Editar</th>
+		</tr>
+
+		<tbody id="filas_tabla"></tbody>
+	</table>
+
+	<br /><br />
+</body>
+
+</html>

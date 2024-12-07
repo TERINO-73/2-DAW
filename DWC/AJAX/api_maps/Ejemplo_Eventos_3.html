@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+  	<style type="text/css">
+  	/* TENEMOS QUE DARLE UN TAMAÑO AL DIV QUE CONTIENE EL MAPA. SI NO, NO SE VERÁ  */
+      #divmapa {
+      	width: 700px;
+      	height: 700px;
+      	border: 1px solid blue; 
+     	}
+    </style>
+  	
+    <title>API v3 de Google Maps. Ejemplo Eventos 3</title>
+    
+    <script type="text/javascript" 
+	src="http://maps.google.com/maps/api/js?key=AIzaSyBVmqqP1yZPn8x2x0B2vWjdrikAMsUtVAU">
+    </script>
+    
+    <script type="text/javascript">
+		let mapa; // Declaramos el mapa como una variable global
+		let zoom;
+		function CargarMapa() {
+		  // Opciones iniciales del mapa
+		  var opciones = {
+			center: new google.maps.LatLng(37.386719, -5.981365), // Sevilla
+			zoom: 17,
+		  };
+
+		  // Dibujamos el mapa
+		  mapa = new google.maps.Map(document.getElementById("divmapa"), opciones);
+  
+		  // Evento de doble clic izquierdo para hacer zoom
+		  google.maps.event.addListener(mapa, 'dblclick', function (e) {
+			mapa.setZoom(mapa.getZoom() + 1); // Aumenta el zoom
+			mapa.setCenter(e.latLng); // Centra el mapa donde se hizo clic
+		  });
+  
+		  // Evento de doble clic derecho para reducir zoom
+		  google.maps.event.addListener(mapa, 'rightclick', function (e) {
+			mapa.setZoom(Math.max(mapa.getZoom() - 1, 0)); // Reduce el zoom sin que baje de 0
+			mapa.setCenter(e.latLng); // Centra el mapa donde se hizo clic
+		  });
+  
+		  // Muestra una ventana de información al hacer clic
+		  google.maps.event.addListener(mapa, 'click', function (e) {
+			ponVentana(e.latLng, mapa);
+		  });
+		}
+  
+		function ponVentana(pos, mapica) {
+		  var infowindow = new google.maps.InfoWindow({
+			position: pos,
+			map: mapica,
+			content: "Latitud: " + pos.lat() + " <br />Longitud: " + pos.lng()+"<br/>Nivel de zoom:"+zoomm,
+		  });
+		}
+  
+		window.onload = CargarMapa;
+	  </script>
+	  <style>
+		#divmapa {
+		  width: 100%;
+		  height: 500px;
+		}
+	</style>
+  </head>
+  
+  <body>
+    <h3>API v3 de Google Maps. Ejemplo Eventos 3</h3>
+    <h5>En esta versión, le añadimos un evento al MAPA.</h5>
+    <p>El evento consiste en hacer poner una ventanica de info 
+    	   con las coordenadas allí donde el usuario ha hecho click
+    </p>
+
+    <p>
+    	<div id="divmapa">
+    		Aquí pondremos el mapa
+    	</div>
+    </p>
+  </body>
+  
+</html>

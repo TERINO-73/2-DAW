@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>Examen 1ª Evaluación DWEC</title>
+	<style>
+		h3 {
+			color: red;
+		}
+
+		/* CSS para el formulario:   */
+		.formProfes {
+			visibility: hidden;
+			position: absolute;
+			top: 20%;
+			left: 20%;
+			z-index: 11;
+			background-color: pink;
+			border: 2px solid maroon;
+			border-radius: 15px;
+			padding: 1em;
+			color: red;
+		}
+
+		.formProfes div label {
+			display: block;
+			margin-top: .5em;
+		}
+
+		.formProfes .btn {
+			display: block;
+			margin-top: 1em;
+		}
+
+
+		.ver {
+			visibility: visible;
+		}
+
+
+		#deptoDelProfe {
+			font-family: "Lucida Console", "Courier New", monospace;
+			font-size: 1.2em;
+			font-weight: bold;
+			color: blue;
+		}
+	</style>
+
+	<script type="text/javascript" src="util2AJAX.js"></script>
+	<script type="text/javascript">
+		// Crea un nuevo objeto 'peti', ese objeto de la clase pAJAX(),
+		// tiene una función llamada 'peticion' que será utilizada
+		let peti = new pAJAX();
+		let url = "deptosProfes.php";
+		let accion = { // Creamos un nuevo objeto para determinar la lo que usuario quiere realizar
+			tipo: 0, // 0 => Insertar; 1 => Modificar
+			id_departamento: 0,
+			id_profe: -1, // Por defecto, el id será "-1", en caso contrario se realizará la acción de modificar
+			clase_css: "ver"
+		};
+
+		window.onload = function () {
+			cargarTablaDepart();
+
+			document.getElementById("btAnade").onclick = AnadeOEditar;
+			document.getElementById("btCancelar").onclick = cancelarFormulario;
+			document.getElementById("btNuevaProfe").onclick = verFormularioAnade;
+		}
+		function cargarTablaDepart() {
+			var p = {
+				servicio: "departamentos",
+			};
+			p = JSON.stringify(p);
+			peti.peticion(url, "post", MuestraDepart, p);
+		}
+
+		function MuestraDepart(datos) {
+			let departamentos = JSON.parse(datos);
+			pintaDepart(departamentos);
+		}
+
+		const pintaDepart = (departamentos) => {
+
+			let tabla = document.getElementById("detalle_departamentos"); // Obtener la tabla
+
+			// Limpiamos la tabla antes de rellenar
+			tabla.innerHTML = "";
+
+			// Iterar sobre cada persona
+			departamentos.forEach((elemento) => {
+				var tr = document.createElement("tr"); // Crear la fila
+
+				// ID
+				var tdID = document.createElement("td"); // Columna ID
+				tdID.innerHTML = elemento.ID;
+				tr.appendChild(tdID);
+
+				// Nombre
+				var tdNombre = document.createElement("td");
+				tdNombre.innerHTML = elemento.NOMBRE;
+				tr.appendChild(tdNombre);
+
+				// Apellidos
+				var tdDescripcion = document.createElement("td");
+				tdDescripcion.innerHTML = elemento.DESCRIPCION;
+				tr.appendChild(tdDescripcion);
+
+				// Botón de borrar
+				var tdMuestraDepart = document.createElement("td");
+				var btnMuestraDepart = document.createElement("button");
+				btnMuestraDepart.textContent = "Mostrar";
+				btnMuestraDepart.dataset.idDepart = elemento.ID;
+				btnMuestraDepart.type = "button";
+				btnMuestraDepart.dataset.NombreDepart = elemento.NOMBRE;
+				btnMuestraDepart.onclick = cargaTablaProfesores; // Asignar la función borrarPersona
+				tdMuestraDepart.appendChild(btnMuestraDepart);
+				tr.appendChild(tdMuestraDepart);
+				// Agregar la fila a la tabla
+				tabla.appendChild(tr);
+			});
+		}
+
+		function cargaTablaProfesores() {
+			accion.id_departamento = this.dataset.idDepart
+			var p = {
+				servicio: "profesores",
+				id_departamento: accion.id_departamento,
+			};
+			console.log(p);
+			p = JSON.stringify(p);
+			peti.peticion(url, "post", MostrarProfesores, p);
+		}
+
+		function MostrarProfesores(datos) {
+			let profesores = JSON.parse(datos);
+			pintaProfe(profesores);
+		}
+
+		const pintaProfe = (profesores) => {
+			let tabla = document.getElementById("detalle_profesores"); // Obtener la tabla
+
+			// Limpiamos la tabla antes de rellenar
+			tabla.innerHTML = "";
+
+			// Iterar sobre cada persona
+			profesores.forEach((elemento) => {
+				var tr = document.createElement("tr"); // Crear la fila
+
+				// ID
+				var tdID = document.createElement("td"); // Columna ID
+				tdID.innerHTML = elemento.ID;
+				tr.appendChild(tdID);
+
+				// DNI
+				var tdDNI = document.createElement("td"); // Columna DNI
+				tdDNI.innerHTML = elemento.DNI;
+				tr.appendChild(tdDNI);
+
+				// Nombre
+				var tdNombre = document.createElement("td");
+				tdNombre.innerHTML = elemento.NOMBRE;
+				tr.appendChild(tdNombre);
+
+				// Apellidos
+				var tdApellidos = document.createElement("td");
+				tdApellidos.innerHTML = elemento.APELLIDOS;
+				tr.appendChild(tdApellidos);
+
+				// Botón de borrar
+				var tdBorrar = document.createElement("td");
+				var btnBorrar = document.createElement("button");
+				btnBorrar.textContent = "Borrar";
+				btnBorrar.dataset.idprofe = elemento.ID;
+				btnBorrar.dataset.nombreape =
+					elemento.NOMBRE + " " + elemento.APELLIDOS;
+				btnBorrar.onclick = borrarProfe; // Asignar la función borrarPersona
+				tdBorrar.appendChild(btnBorrar);
+				tr.appendChild(tdBorrar);
+
+				// Botón de editar
+				var tdEditarProfe = document.createElement("td");
+				var btnEditarProfe = document.createElement("button");
+				btnEditarProfe.textContent = "Editar";
+				btnEditarProfe.dataset.idprofe = elemento.ID;
+				btnEditarProfe.dataset.idDepartProfe = elemento.ID_DEPARTAMENTO;
+				btnEditarProfe.onclick = editarProfe;
+				tdEditarProfe.appendChild(btnEditarProfe);
+				tr.appendChild(tdEditarProfe);
+
+				// Agregar la fila a la tabla
+				tabla.appendChild(tr);
+			});
+		}
+
+		function AnadeOEditar(e) {
+			e.preventDefault();
+			let p;
+			console.log("accion", accion.tipo);
+
+
+			if (accion.tipo === 0) {
+
+				p = {
+					servicio: "anadeProfe",
+					id_departamento: accion.id_departamento,
+					dni: document.getElementById("dni").value,
+					nombre: document.getElementById("nombre").value,
+					apellidos: document.getElementById("apellidos").value,
+				};
+			} else {
+				p = {
+					servicio: "modificaProfe",
+					id_departamento: accion.id_departamento,
+					id: accion.id_profe,
+					dni: document.getElementById("dni").value,
+					nombre: document.getElementById("nombre").value,
+					apellidos: document.getElementById("apellidos").value,
+				};
+				resetAccion();
+			}
+			peti.peticion(url, "POST", MostrarProfesores, JSON.stringify(p));
+			cancelarFormulario();
+		}
+
+		function editarProfe(e) {
+			accion.id_profe = this.dataset.idprofe;
+			accion.tipo = 1
+			e.preventDefault();
+			var p = {
+				servicio: "selProfeID",
+				id: this.dataset.idprofe,
+			}
+			console.log(p);
+			peti.peticion(url, "POST", llenaForm, JSON.stringify(p));
+		}
+
+
+		function llenaForm(datos) {
+			datosObj = JSON.parse(datos);
+			document.getElementById("dni").value = datosObj.DNI;
+			document.getElementById("nombre").value = datosObj.NOMBRE;
+			document.getElementById("apellidos").value = datosObj.APELLIDOS;
+			verFormularioEdita();
+		}
+
+		function limpiarFormulario() {
+
+			document.getElementById("dni").value = "";
+			document.getElementById("nombre").value = "";
+			document.getElementById("apellidos").value = "";
+		}
+
+		function cancelarFormulario() {
+			document.getElementById("formProfes").classList.remove("ver");
+			resetAccion();
+		}
+
+		function verFormularioAnade() {
+			limpiarFormulario();
+
+			var legend = document.getElementsByTagName("legend");
+			legend[0].textContent = "Alta en el servicio";
+			var boton = document.getElementById("btAnade");
+			boton.innerHTML = "Anadir";
+			document.getElementById("formProfes").classList.add("ver");
+
+		}
+
+		function verFormularioEdita() {
+			var legend = document.getElementsByTagName("legend");
+			legend[0].textContent = "Editar Datos";
+			var boton = document.getElementById("btAnade");
+			boton.innerHTML = "Editar";
+			document.getElementById("formProfes").classList.add("ver");
+
+		}
+
+		function borrarProfe(e) {
+			e.preventDefault();
+			if (confirm("¿Deseas eliminar a " + this.dataset.nombreape + "?")) {
+				var p = { servicio: "eliminaProfe", id_departamento: accion.id_departamento, id: this.dataset.idprofe };
+				peti.peticion(url, "POST", MostrarProfesores, JSON.stringify(p));
+			}
+
+		}
+
+		function resetAccion() {
+			setAccion(0, "Añadir persona", "Añadir", -1);
+		}
+		function setAccion(tipo, texto_legend, texto_boton, id_persona) {
+			accion.tipo = tipo;
+			accion.texto_legend = texto_legend;
+			accion.texto_boton = texto_boton;
+			accion.id_persona = id_persona;
+		}
+
+
+
+
+
+
+
+
+
+
+	</script>
+
+</head>
+
+<body>
+	<h1>Registro de Usuarios</h1>
+	<form>
+		<br>
+		<h4>Selecciona Departamento:</h4>
+		<p>
+		<div id="departamentos">
+			<table border="1">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>NOMBRE</th>
+						<th>DESCRIPCION</th>
+						<th>Acción</th>
+					</tr>
+				</thead>
+
+				<tbody id="detalle_departamentos">
+
+				</tbody>
+
+
+			</table>
+		</div>
+		</p>
+
+
+
+		<br />
+		<br />
+		Tabla de Profesores. Departamento de <span id="deptoDelProfe"></span>:
+		<br><br>
+		<button class="btn" id="btNuevaProfe" type="button">Nueva profe</button>
+
+		<p>
+		<div id="profesores">
+			<table border="1">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>DNI</th>
+						<th>NOMBRE</th>
+						<th>APELLIDOS</th>
+						<th>Eliminar</th>
+						<th>Editar</th>
+					</tr>
+				</thead>
+
+				<tbody id="detalle_profesores">
+
+				</tbody>
+
+
+			</table>
+		</div>
+		</p>
+
+
+		<div id="formProfes" class="formProfes">
+			<fieldset>
+				<legend>Alta en el servicio</legend>
+				<div>
+					<label for="dni">DNI</label>
+					<input type="text" id="dni" size="10" maxlength="9" />
+				</div>
+				<div>
+					<label for="nombre">Nombre</label>
+					<input type="text" id="nombre" />
+				</div>
+				<div>
+					<label for="apellidos">Apellidos</label>
+					<input type="text" id="apellidos" size="40" />
+				</div>
+				<div class="btn">
+					<button id="btAnade" type="button" data-idprofe="-1">Añadir </button>
+					<button id="btCancelar" type="button">Cancelar </button>
+				</div>
+			</fieldset>
+		</div>
+
+	</form>
+
+</body>
+
+</html>

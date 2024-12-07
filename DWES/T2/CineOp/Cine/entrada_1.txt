@@ -1,0 +1,4 @@
+Compra:
+Película: Pelicula 1
+Horario: 15:00
+Asientos: 1-1

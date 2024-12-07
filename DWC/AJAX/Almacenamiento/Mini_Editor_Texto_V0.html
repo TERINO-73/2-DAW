@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>   
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>Procesador de Textos</title>
+		
+		<style type="text/css">
+		#texto {
+			width: 700px;
+			height: 500px;
+			border: 1px solid blue;
+			padding: 0.4em;
+		}
+		span {
+			border: 2px solid red;
+			margin: 1.1em;
+			padding: .2em;
+			cursor: pointer;
+			background-color: pink;
+		}
+		</style>
+		
+    <script type="text/javascript">
+          	window.onload = () => {
+				document.getElementById("negrita").addEventListener("mousedown", ponerNegrita);
+				document.getElementById("cursiva").addEventListener("mousedown", ponerCursiva);
+				document.getElementById("subrayado").addEventListener("mousedown", ponerSubrayado);
+				document.getElementById("color").addEventListener("mousedown", ponerColor);
+				document.getElementById("guardar").addEventListener("mousedown", guardaTexto);
+				document.getElementById("selector").addEventListener("change", cargarTextoGuardado);
+				
+				cargarListaGuardados();
+			};
+
+			function ponerNegrita(e) {
+				document.execCommand('bold', false, null);
+				e.preventDefault();
+			}
+			
+			function ponerCursiva(e) {
+				document.execCommand('italic', false, null);
+				e.preventDefault();
+			}
+			
+			function ponerSubrayado(e) {
+				document.execCommand('underline', false, null);
+				e.preventDefault();
+			}
+			
+			function ponerColor(e) {
+				document.execCommand('foreColor', false, "#ff0000");
+				e.preventDefault();
+			}
+			
+			function guardaTexto(e) {
+				let contenido = document.getElementById("texto").innerHTML;
+				
+				let nombre = document.getElementById("nombreTexto").value.trim();
+				
+				if (nombre) {
+					localStorage.setItem(nombre, contenido);
+					
+					document.getElementById("sal").innerHTML = `Texto guardado con el nombre: ${nombre}`;
+					cargarListaGuardados();
+					
+					document.getElementById("nombreTexto").value = "";
+				} else {
+					alert("Por favor, ingresa un nombre para guardar el texto.");
+				}
+				
+				e.preventDefault();
+			}
+			
+			function cargarListaGuardados() {
+				let selector = document.getElementById("selector");
+				selector.innerHTML = "<option value=''>Selecciona un texto guardado</option>";
+				
+				for (let i = 0; i < localStorage.length; i++) {
+					let nombre = localStorage.key(i);
+					let option = document.createElement("option");
+					option.value = nombre;
+					option.textContent = nombre;
+					selector.appendChild(option);
+				}
+			}
+			
+			function cargarTextoGuardado() {
+				let nombreSeleccionado = document.getElementById("selector").value;
+				
+				if (nombreSeleccionado) {
+					let contenido = localStorage.getItem(nombreSeleccionado);
+					document.getElementById("texto").innerHTML = contenido;
+					document.getElementById("sal").innerHTML = `Texto cargado: ${nombreSeleccionado}`;
+				}
+			}
+    </script>
+  </head>
+  
+  <body>
+    <h3>Procesador de Textos</h3>
+	
+	<p>
+		<span id="guardar">Guardar</span>
+		<span id="negrita">Negrita</span>
+		<span id="cursiva">Cursiva</span>
+		<span id="subrayado">Subrayado</span>
+		<span id="color">Color</span>
+	</p>
+
+	<p>
+		<input type="text" id="nombreTexto" placeholder="Nombre para guardar el texto">
+		<select id="selector">
+			<option value="">Selecciona un texto guardado</option>
+		</select>
+	</p>
+
+	<div id="texto" contentEditable="true" spellcheck="true">
+		Esto es un texto de prueba para no tener que estar escribiendo.
+	</div>
+	
+	<p id="sal"></p>
+    
+  </body>
+</html>

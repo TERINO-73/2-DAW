@@ -1,0 +1,7 @@
+{
+    "require": {
+        "fpdf/fpdf": "^1.86",
+        "nelexa/zip": "^4.0",
+        "setasign/tfpdf": "^1.33"
+    }
+}

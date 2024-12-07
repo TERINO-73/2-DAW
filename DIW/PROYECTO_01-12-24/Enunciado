@@ -1,0 +1,45 @@
+TRABAJO de DISEÑO INTERFACES WEB
+
+ 
+
+Descripción:
+
+Desarrollar un manual web, el cual muestre, ilustre, explique, indique, etc. Como configurar servidores web para la ejecución de java, es decir, el servidor de aplicaciones, en el contexto de la especificación de Java Enterprise Edition (EE), se encarga de gestionar y ejecutar todos los componentes de la aplicación, escritos en lenguaje Java, como Servlets, ficheros JSP (Java Server Pages), WebSockets o EJB's (Enterprise JavaBeans).
+
+En concreto deberá tratar 3 servidores web a elegir de entre los existentes para el desarrollo web. Ya sea para entorno Windows o Linux (preferiblemente Ubuntu), pudiéndose realizar combinaciones, es decir, uno para Linux y dos para Windows, o dos para Linux y uno para Windows. Pero NUNCA repetir servidores web, es decir, no se podrá utilizar un mismo servidor web para más de un sistema operativo. Deberá incluir toda la información necesaria para encontrar la dirección de descarga del servidor, instalarlo (en el sistema operativo elegido para ese servidor), y realizar las configuraciones necesarias para hacer que dicho servidor ejecute código java.
+
+El trabajo será individual y se penalizará cualquier tipo de copia mediante el criterio recogido en la programación didáctica del módulo.
+
+
+
+
+Valoración:
+
+Se valorará el componente didáctico del manual web, así como los componentes estético, diseño, usabilidad, interactividad con el usuario, etc.
+
+
+
+
+Justificación:
+
+Este trabajo pretende ser una puesta en práctica de los conocimientos del módulo Diseño de Interfaces Web del ciclo formativo, en un trabajo de utilidad para el ciclo, como puede ser la configuración de servidores web. Para la realización de una evaluación por parte del profesor del módulo.
+
+
+
+
+Entrega:
+
+Este manual deberá ser autocontenido, es decir, no necesitará nada, además de un navegador web para ser utilizado. Recogiéndose todo su contenido en una carpeta o directorio, pero entendiéndose que será necesaria una conexión a internet para su puesta en práctica.
+
+La entrega será mediante la plataforma Moodle centros, en el curso correspondiente al módulo.
+
+El plazo de entrega máximo será el domingo 1 de diciembre de 2024. No recogiéndose ningún trabajo no terminado a partir de dicho día.
+
+
+
+
+Exposición:
+
+La exposición será en clase por parte del alumno al resto de la clase. En la exposición el alumno defenderá los aspectos de contenido y diseño de su trabajo ante las preguntas del profesor y del resto de compañeros.
+
+Se Dispondrá de de 15 minutos de exposición, pudiéndose reducir o ampliar este tiempo si el profesor así lo considera oportuno.

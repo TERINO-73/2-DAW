@@ -1,0 +1,11 @@
+{
+    "name": "daw_m/test-composer",
+    "autoload": {
+        "psr-4": {
+            "DawM\\TestComposer\\": "src/"
+        }
+    },
+    "require": {
+        "monolog/monolog": "^3.7"    
+    }
+}

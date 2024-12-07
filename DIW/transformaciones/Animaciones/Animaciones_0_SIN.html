@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Animación de Coche</title>
+    <style type="text/css">
+        @keyframes moverCoche {
+            0% {
+                transform: translateX(0) scaleX(1);
+            }
+            49.9% {
+                transform: translateX(calc(100vw - 100px)) scaleX(1); 
+            }
+            50% {
+                transform: translateX(calc(100vw - 100px)) scaleX(-1);
+            }
+            100% {
+                transform: translateX(0) scaleX(-1);
+            }
+        }
+
+        
+        #coche {
+            position: absolute;
+            bottom: 20px; 
+            width: 100px; 
+            animation: moverCoche 4s infinite linear;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <img src="img/coche_1.gif" id="coche">
+
+</body>
+</html>

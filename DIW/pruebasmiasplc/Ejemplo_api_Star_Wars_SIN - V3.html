@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Envio de parametros con AJAX externo</title>
+	<style type="text/css">
+		body {
+			width: auto;
+			background-image: url("img/galaxies_stars_glare_black_background_4k_hd_space-3840x2160.jpg");
+			background-position: center;
+			background-repeat: repeat-y;
+			background-attachment: scroll;
+			background-size: cover;
+			text-align: center;
+		}
+
+		h3 {
+			-webkit-text-stroke-width: 3px;
+			-webkit-text-stroke-color: yellow;
+			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+			font-style: bold;
+			display: block;
+			font-size: 4em;
+			color: rgb(0, 0, 0);
+			text-shadow: 1px 1px 2px black;
+		}
+
+		.estilo_Tabla_1 {
+			border: solid yellow 1px;
+			margin: auto;
+			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+			width: 80%;
+			border-collapse: collapse;
+		}
+
+		.estilo_Tabla_1 td {
+			border: solid yellow 1px;
+			font-size: 1em;
+			padding: 1em;
+		}
+
+		#cuerpoPersonajes tr:hover {
+			color: #000000;
+			background-color: #ffffff29;
+		}
+
+		#cuerpoPersonajes tr td:last-child {
+			font-size: large;
+			color: yellow;
+		}
+
+		#cuerpoPersonajes tr td:last-child:hover {
+			font-size: large;
+			color: white;
+		}
+
+		.estilo_Tabla_1 th {
+			border: solid yellow 1px;
+			font-size: 1.2em;
+			padding: 1em;
+			background-color: rgba(0, 0, 0, 0);
+			color: #ffffff;
+		}
+
+		.estilo_Tabla_1 tr td {
+			color: white;
+			background-color: #00000000;
+		}
+
+		caption {
+			padding: 10px;
+			caption-side: bottom;
+			color: rgb(255, 255, 255);
+			background-color: rgba(0, 0, 0, 0);
+		}
+
+		#datosPlaneta {
+			color: white;
+			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+			margin: auto;
+			padding: 2em;
+			width: fit-content;
+			background-color: rgba(0, 0, 0, 0.874);
+		}
+
+		input {
+			border: 2px solid white;
+			border-radius: 1em;
+			background-color: rgba(0, 0, 0, 0);
+			color: white;
+			font-size: 1.5em;
+			margin-left: 100px;
+			margin-right: 100px;
+			padding: 1em 3em 1em 3em;
+		}
+	</style>
+	<script type="text/javascript" src="claseAjax.js"></script>
+	<script type="text/javascript">
+
+		let peti = new pAJAX();
+		window.onload = () => {
+			peti.peticion('https://swapi.dev/api/people/?format=json', 'GET', recibePersonajes);
+		}
+
+		const pidePlanetas = urlPlaneta => {
+			peti.peticion(urlPlaneta, 'GET', recibeDatosPlaneta);
+		}
+
+		const recibeDatosPlaneta = (datos) => {
+			let planeta = datos;
+			console.log(planeta);
+			addPlanetAttributes(planeta);
+		}
+
+		const addPlanetAttributes = planet => {
+			let divPlaneta = document.getElementById("datosPlaneta");
+			divPlaneta.innerHTML = "";
+			divPlaneta.innerHTML += "Datos del planeta<br>";
+			divPlaneta.innerHTML += "Nombre:" + planet.name + "<br>";
+			divPlaneta.innerHTML += "Periodo de rotación: " + planet.rotation_period + "<br>";
+			divPlaneta.innerHTML += "Periodo orbital: " + planet.orbital_period + "<br>";
+			divPlaneta.innerHTML += "Diámetro: " + planet.diameter + "<br>";
+			divPlaneta.innerHTML += "Clima: " + planet.climate + "<br>";
+			divPlaneta.innerHTML += "Gravedad: " + planet.gravity + "<br>";
+			divPlaneta.innerHTML += "Terreno: " + planet.terrain + "<br>";
+		}
+
+		function recibePersonajes(responseText) {
+			// Aquí metemos el código para poner
+			// las provincias en el select
+			let respuesta = responseText;
+			console.log(respuesta)
+			let nextUrl = respuesta.next;
+			let previousUrl = respuesta.previous;
+			document.getElementById("next").onclick = (e) => {
+				e.preventDefault();
+				pideNuevosPersonajes(nextUrl);
+			}
+			document.getElementById("previous").onclick = (e) => {
+				e.preventDefault();
+				pideAnterioresPersonajes(previousUrl);
+			}
+			let personajes = respuesta.results;
+			pintaPersonaje(personajes);
+			// addAttributes(personajes);
+		}
+
+
+		function pideNuevosPersonajes(newUrl) {
+			peti.peticion(newUrl, 'GET', recibePersonajes);  // Llamada a peticion() de pAJAX
+		}
+
+		function pideAnterioresPersonajes(newUrl) {
+			peti.peticion(newUrl, 'GET', recibePersonajes);  // Llamada a peticion() de pAJAX
+		}
+
+		/**
+		 * oCol => array donde se encuentran los objetos
+		 * 
+		 * tipo => lugar de la tabla donde se van a crear 
+		 * los objetos solicitados a la API
+		 */
+		function crea_filaObj(oCol, tipo) {
+			if (tipo == "cabecera")
+				tipo = "th";
+			else
+				tipo = "td";
+			let fila = document.createElement("tr");
+			let col; let cont;
+			console.log("acol; ", oCol)
+			for (var i in oCol) {
+				console.log("i: ", oCol[i]);
+				col = document.createElement(tipo);
+				col.innerHTML = oCol[i];
+				fila.appendChild(col);
+			}
+			console.log('fila: ', fila);
+			return fila;
+		}
+
+		/**
+		 * Función que devuelve los datos de los datos de los 
+		 * personajes guardados en un array
+		 */
+		function pintaPersonaje(datos) {
+			var cuerpo = document.getElementById("cuerpoPersonajes");
+			var link;
+			var datosPintar = datos.map(function (d) {
+				link = '<a href=" ' + d.homeworld + '?format=json">' + d.homeworld + '</a>';
+				return [d.name, d.height, d.mass, d.birth_year, d.gender, link];
+			})
+
+			console.log("datos a pintar: ", datosPintar)
+			crea_filaObj(datosPintar, "");
+		}
+
+
+	</script>
+</head>
+
+<body>
+	<h3>EL DESPERTAR DE LA API</h3>
+	<br />
+
+	<p>
+	<table id="personajes" class="estilo_Tabla_1">
+		<caption>Personajes STAR WARS</caption>
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Altura</th>
+				<th>Peso</th>
+				<th>Nacimiento</th>
+				<th>Género</th>
+				<th>Homeworld</th>
+			</tr>
+		</thead>
+		<tbody id="cuerpoPersonajes">
+
+		</tbody>
+	</table>
+	<br>
+	<input type="submit" value="Previous" id="previous" name="previous">
+	<input type="submit" value="Next" id="next" name="next">
+	</p>
+
+	<br />
+	<div id="datosPlaneta">Datos del planeta:</div>
+</body>
+
+</html>
