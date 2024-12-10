@@ -65,7 +65,7 @@
                 tasa_paro: parseFloat(row.getElementsByTagName('tasa_paro')[0].textContent),
             }));
             // Mostramos los datos parseados en la consola
-            data.reverse;
+            data.reverse();
 
             console.log('Datos procesados:', data);
             renderChart(); // Llamamos a la función para renderizar el gráfico
