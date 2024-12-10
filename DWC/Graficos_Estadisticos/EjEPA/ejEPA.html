@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico Encuesta Población Activa</title>
+    <link rel="stylesheet" href="../c3-0.7.20/c3.min.css">
+    <script src="../c3-0.7.20/docs/js/d3-5.8.2.min.js"></script>
+    <script src="../c3-0.7.20/c3.min.js"></script>
+</head>
+<body>
+    <h1>Gráfico Encuesta Población Activa</h1>
+
+    <input type="file" id="id_fichero" name="fichero" accept=".xml" />
+    <button onclick="descargarDatos()">Descargar en formato JSON</button>
+
+    <br><br>
+
+    <select id="opcion" size="7" multiple>
+        <option value="trimestre">Trimestre</option>
+        <option value="activos">Activos</option>
+        <option value="ocupados">Ocupados</option>
+        <option value="parados">Parados</option>
+        <option value="tasa_actividad">Tasa de Actividad</option>
+        <option value="tasa_paro">Tasa de Paro</option>
+    </select>
+
+    <p>Encuesta de Población Activa (EPA). Serie histórica (Datos en miles de personas)</p>
+
+    <div id="chart">
+        Aquí aparecerá el gráfico
+    </div>
+
+    <script>
+        let data = [];
+
+        // Función para cargar el archivo XML
+        document.getElementById('id_fichero').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const xmlString = e.target.result;
+                    parseXML(xmlString);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Función para parsear el XML y convertirlo en formato JSON
+        function parseXML(xmlString) {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+            const rows = xmlDoc.getElementsByTagName('row');
+
+            // Verificamos cuántos rows existen
+            console.log('Filas del XML:', rows.length);
+
+            data = Array.from(rows).map(row => ({
+                trimestre: row.getElementsByTagName('trimestre')[0].textContent,
+                activos: parseFloat(row.getElementsByTagName('activos')[0].textContent),
+                ocupados: parseFloat(row.getElementsByTagName('ocupados')[0].textContent),
+                parados: parseFloat(row.getElementsByTagName('parados')[0].textContent),
+                tasa_actividad: parseFloat(row.getElementsByTagName('tasa_actividad')[0].textContent),
+                tasa_paro: parseFloat(row.getElementsByTagName('tasa_paro')[0].textContent),
+            }));
+            // Mostramos los datos parseados en la consola
+            data.reverse;
+
+            console.log('Datos procesados:', data);
+            renderChart(); // Llamamos a la función para renderizar el gráfico
+        }
+
+        // Detectar cambios en las opciones seleccionadas
+        document.getElementById('opcion').addEventListener('change', function() {
+            renderChart(); // Actualizar el gráfico cada vez que se seleccionan opciones
+        });
+
+        // Función para renderizar el gráfico
+        function renderChart() {
+            let selectedOptions = Array.from(document.getElementById('opcion').selectedOptions).map(option => option.value);
+            // Verificamos qué opciones han sido seleccionadas
+            console.log('Opciones seleccionadas:', selectedOptions);
+
+            if (selectedOptions.length === 0) {
+                document.getElementById('chart').innerText = 'Selecciona al menos una opción de datos para mostrar el gráfico.';
+                return;
+            }
+
+            // Preparamos los datos para el gráfico
+            const chartData = selectedOptions.reduce((acc, option) => {
+                if (option !== 'trimestre') {
+                    acc[option] = data.map(d => d[option]);
+                }
+                return acc;
+            }, {});
+        
+            // Agregar el trimestre como la primera columna
+            const columns = [
+                ['Trimestre', ...data.map(d => d.trimestre)],
+                ...Object.entries(chartData).map(([key, values]) => [key, ...values])
+            ];
+
+            // Mostramos las columnas en la consola para verificar
+            console.log('Datos para el gráfico:', columns);
+
+            // Generamos el gráfico C3
+            c3.generate({
+                
+                bindto: '#chart',
+                data: {
+                    columns: columns,
+                    type: 'line'
+                },
+                
+                axis: {
+                    x: {
+                        type: 'category',
+                        categories: data.map(d => d.trimestre)
+                    }
+                }
+            });
+        }
+
+        // Función para descargar los datos en formato JSON
+        function descargarDatos() {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'datos_encuesta_poblacion_activa.json';
+            link.click();
+        }
+    </script>
+</body>
+</html>

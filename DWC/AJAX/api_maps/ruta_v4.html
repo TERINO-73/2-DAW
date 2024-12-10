@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ejemplo de Cargar Ruta desde un Archivo GPX con Elevaciones</title>
+        <link rel="stylesheet" href="../c3-0.7.20/c3.min.css">
+        <script src="../c3-0.7.20/docs/js/d3-5.8.2.min.js"></script>
+        <script src="../c3-0.7.20/c3.min.js"></script>
+        <style type="text/css">
+            /* Configuración del tamaño del mapa */
+            #divmapa {
+                width: 1800px;
+                height: 700px;
+                border: 1px solid blue; 
+            }
+
+            #chart {
+                width: 800px;
+                margin-top: 20px;
+                border: 1px solid gray;
+            }
+        </style>
+        <script type="text/javascript" 
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVmqqP1yZPn8x2x0B2vWjdrikAMsUtVAU">
+        </script>
+        <script type="text/javascript">
+            let mapa; // Variable global para el mapa
+            let rutaPolyline; // Polyline para trazar la ruta
+
+            function cargarMapa() {
+                // Configuración inicial del mapa
+                const centro = new google.maps.LatLng(37.386765, -5.981461); // Coordenadas iniciales
+                const opciones = {
+                    center: centro,
+                    zoom: 12
+                };
+
+                // Crear el mapa
+                mapa = new google.maps.Map(document.getElementById("divmapa"), opciones);
+
+                // Asociar el evento de cargar archivo GPX
+                document.getElementById("id_fichero").addEventListener('change', Leer_Fichero, false);
+            }
+
+            function Leer_Fichero(evento) {
+                const archivo = evento.target.files[0]; // Obtener el archivo seleccionado
+                
+                if (!archivo) {
+                    alert("Por favor, selecciona un archivo GPX.");
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const xml = Convertir_a_XML(reader.result);
+                    tratarXML(xml);
+                };
+                reader.readAsText(archivo); // Leer el archivo como texto
+            }
+
+            function Convertir_a_XML(texto) {
+                let xml = null;
+                if (window.DOMParser) {
+                    // Navegadores modernos
+                    xml = new DOMParser().parseFromString(texto, "text/xml");
+                } else {
+                    // Internet Explorer
+                    xml = new ActiveXObject("Microsoft.XMLDOM");
+                    xml.async = false;
+                    xml.loadXML(texto);
+                }
+                return xml;
+            }
+
+            function tratarXML(xml) {
+                const puntos = xml.getElementsByTagName("trkpt"); // Obtener los puntos GPX
+                if (puntos.length === 0) {
+                    alert("No se encontraron puntos en el archivo GPX.");
+                    return;
+                }
+
+                const coordenadas = [];
+                const elevaciones = ['Elevación (m)']; // Título de la serie de datos
+                for (let i = 0; i < puntos.length; i++) {
+                    const lat = parseFloat(puntos[i].getAttribute("lat"));
+                    const lon = parseFloat(puntos[i].getAttribute("lon"));
+                    const ele = parseFloat(puntos[i].getElementsByTagName("ele")[0]?.textContent || 0);
+                    
+                    coordenadas.push(new google.maps.LatLng(lat, lon));
+                    elevaciones.push(ele); // Añadir la elevación al array
+                }
+
+                // Centrar el mapa en el primer punto de la ruta
+                mapa.setCenter(coordenadas[0]);
+                mapa.setZoom(14);
+
+                // Dibujar la ruta en el mapa
+                trazarRuta(coordenadas);
+
+                // Mostrar el gráfico con las elevaciones
+                generarGrafico(elevaciones);
+            }
+
+            function trazarRuta(coordenadas) {
+                // Eliminar la ruta anterior si existe
+                if (rutaPolyline) {
+                    rutaPolyline.setMap(null);
+                }
+
+                // Crear una nueva Polyline para la ruta
+                rutaPolyline = new google.maps.Polyline({
+                    path: coordenadas,
+                    geodesic: true,
+                    strokeColor: "#FF0000",
+                    strokeOpacity: 0.8,
+                    strokeWeight: 4
+                });
+
+                // Añadir la ruta al mapa
+                rutaPolyline.setMap(mapa);
+            }
+
+            function generarGrafico(elevaciones) {
+                // Generar el gráfico usando C3.js
+                const chart = c3.generate({
+                    bindto: '#chart',
+                    data: {
+                        columns: [elevaciones],
+                        type: 'line'
+                    },
+                    axis: {
+                        x: {
+                            label: 'Punto',
+                            tick: {
+                                format: function (x) { return x; }
+                            }
+                        },
+                        y: {
+                            label: 'Altura (m)'
+                        }
+                    }
+                });
+            }
+
+            window.onload = cargarMapa;
+        </script>
+    </head>
+
+    <body>
+        <h3>Ejemplo para Cargar y Mostrar una Ruta desde un Archivo GPX con Elevaciones</h3>
+        <p>Selecciona un archivo GPX para mostrar la ruta en el mapa y un gráfico de elevaciones:</p>
+        <input type="file" id="id_fichero" name="fichero" accept=".gpx"/>
+
+        <div id="divmapa">
+            Aquí pondremos el mapa
+        </div>
+
+        <div id="chart">
+            Aquí aparecerá el gráfico de elevación
+        </div>
+    </body>
+</html>
