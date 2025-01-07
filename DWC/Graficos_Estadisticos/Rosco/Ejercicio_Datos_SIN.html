@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ejercicio Datos Ocupación Empleo</title>
+    <style type="text/css">
+        h2 {
+            text-align: center;
+            color: maroon;
+        }
+    </style>
+
+    <!-- Load c3.css -->
+    <link rel="stylesheet" href="../c3-0.7.20/c3.min.css">
+    <script src="../c3-0.7.20/docs/js/d3-5.8.2.min.js"></script>
+    <script src="../c3-0.7.20/c3.min.js"></script>
+
+</head>
+<body>
+    <h2>Ocupados por sexo y grupo de edad</h2>
+
+    <div>
+        <label for="fichero">Fichero: </label>
+        <input type="file" id="fichero" accept=".json" />
+    </div>
+
+    <br>
+
+    <label for="sexo">Selecciona el sexo:</label>
+    <select id="sexo">
+        <option value="Ambos sexos">Ambos sexos</option>
+        <option value="Hombres">Hombres</option>
+        <option value="Mujeres">Mujeres</option>
+    </select>
+
+    <br><br>
+
+    <div id="grafico"></div>
+
+    <script type="text/javascript">
+        document.getElementById('fichero').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const datos = JSON.parse(e.target.result);
+                    generarGrafico(datos);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        function generarGrafico(datos) {
+            const selectorSexo = document.getElementById('sexo');
+
+            selectorSexo.addEventListener('change', function () {
+                actualizarGrafico(datos);
+            });
+
+            actualizarGrafico(datos); // Inicializa con "Ambos sexos"
+        }
+
+        function actualizarGrafico(datos) {
+            const sexoSeleccionado = document.getElementById('sexo').value;
+
+            // Filtrar los datos según el sexo seleccionado
+            const datosFiltrados = datos.filter(d => {
+                return d.MetaData.some(meta => meta.Nombre === sexoSeleccionado);
+            });
+
+            // Preparar datos para el gráfico
+            const columnas = datosFiltrados.map(d => {
+                const grupoEdad = d.MetaData.find(meta => meta.T3_Variable === "Grupos de edad" || meta.T3_Variable === "Semiintervalos de edad").Nombre;
+                const valor = d.Data[0].Valor;
+                return [grupoEdad, valor];
+            });
+
+            // Crear o actualizar gráfico de rosco
+            c3.generate({
+                bindto: '#grafico',
+                data: {
+                    columns: columnas,
+                    type: 'donut'
+                },
+                donut: {
+                    title: sexoSeleccionado
+                }
+            });
+        }
+    </script>
+</body>
+</html>
