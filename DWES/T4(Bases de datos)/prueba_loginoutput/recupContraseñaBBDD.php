@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
             <html>
             <head><title>Recupera tu contraseña</title></head>
             <body>
-            <a href=\"http://localhost/clase/DWES/Login/verifyToken.php?token=$tokenSeguro\">Pulsa aquí para cambiar tu contraseña</a>
+            <a href=\"http://localhost/2-DAW-1/DWES/T4(Bases de datos)/prueba_loginoutput/verifyToken.php?token=$tokenSeguro\">Pulsa aquí para cambiar tu contraseña</a>
             </body>
             </html>
             ";
