@@ -1,7 +1,7 @@
 <?php
 // listado_tenistas.php
-require_once '../útiles/config.php';
-require_once '../útiles/funciones.php';
+require_once '../utiles/config.php';
+require_once '../utiles/funciones.php';
 
 function obtenerConexion($config) {
     return conectarPDO($config);

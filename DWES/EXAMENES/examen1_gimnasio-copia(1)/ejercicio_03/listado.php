@@ -1,8 +1,8 @@
 <?php
 // listado.php
 
-require_once '../útiles/config.php';
-require_once '../útiles/funciones.php';
+require_once '../utiles/config.php';
+require_once '../utiles/funciones.php';
 
 $conexion = conectarPDO($database);
 $filter = isset($_GET['filter']) ? $_GET['filter'] : '';

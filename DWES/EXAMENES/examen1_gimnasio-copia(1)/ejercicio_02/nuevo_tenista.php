@@ -1,7 +1,7 @@
 <?php
 // nuevo_tenista.php
-require_once '../útiles/config.php';
-require_once '../útiles/funciones.php';
+require_once '../utiles/config.php';
+require_once '../utiles/funciones.php';
 
 $errores = [];
 $nombre = $apellidos = $altura = $mano = $anno_nacimiento = '';

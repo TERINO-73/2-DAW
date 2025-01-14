@@ -1,7 +1,7 @@
 <?php
 // modificar.php
-require_once '../útiles/config.php';
-require_once '../útiles/funciones.php';
+require_once '../utiles/config.php';
+require_once '../utiles/funciones.php';
 
 $conexion = conectarPDO($database);
 $id = obtenerValorCampo('id');

@@ -1,5 +1,5 @@
 <?php
-// listado.php
+// listado_tenistas.php
 require_once '../utiles/config.php';
 require_once '../utiles/funciones.php';
 
@@ -8,18 +8,22 @@ function obtenerConexion($config) {
 }
 
 $conexion = obtenerConexion($database);
-$query = "SELECT tor.id, tor.nombre, tor.fecha FROM torneos tor";
+$query = "SELECT * FROM tenistas";
 $resultado = resultadoConsulta($conexion, $query);
 
 echo "<table border='1'>";
-echo "<thead><tr><th>ID Torneo</th><th>Nombre</th><th>Fecha</th></tr></thead>";
+echo "<thead><tr><th>ID</th><th>Nombre</th><th>Apellidos</th><th>Altura</th><th>Mano</th><th>Año Nacimiento</th><th>Acción</th></tr></thead>";
 echo "<tbody>";
 
 while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
     echo "<tr>";
     echo "<td>{$fila['id']}</td>";
     echo "<td>{$fila['nombre']}</td>";
-    echo "<td>{$fila['fecha']}</td>";
+    echo "<td>{$fila['apellidos']}</td>";
+    echo "<td>{$fila['altura']}</td>";
+    echo "<td>{$fila['mano']}</td>";
+    echo "<td>{$fila['anno_nacimiento']}</td>";
+    echo "<td><a href='listado_torneos_ganados2.php?tenista_id={$fila['id']}'>Ver Torneos Ganados</a></td>";
     echo "</tr>";
 }
 
