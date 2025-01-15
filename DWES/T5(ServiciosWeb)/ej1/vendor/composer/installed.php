@@ -1,19 +1,19 @@
 <?php return array(
     'root' => array(
-        'name' => 'daw_m/ej1',
+        'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'c1607dc7d6b76bcea248982357cbf1ae7ccabc35',
+        'reference' => '6fbe89c8e7b28270e94e1a5003d7accdbc70275a',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        'daw_m/ej1' => array(
+        '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'c1607dc7d6b76bcea248982357cbf1ae7ccabc35',
+            'reference' => '6fbe89c8e7b28270e94e1a5003d7accdbc70275a',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

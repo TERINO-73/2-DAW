@@ -1,16 +1,4 @@
 {
-    "name": "daw_m/ej1",
-    "autoload": {
-        "psr-4": {
-            "DawM\\Ej1\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "TERINO-73",
-            "email": "jesusteri07@gmail.com"
-        }
-    ],
     "require": {
         "monolog/monolog": "^3.8"
     }
