@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GHobbitComponent } from './g-hobbit/g-hobbit.component';
-
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -12,11 +12,10 @@ import { GHobbitComponent } from './g-hobbit/g-hobbit.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
   ],
-  providers: [
-    provideClientHydration(withEventReplay())
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
