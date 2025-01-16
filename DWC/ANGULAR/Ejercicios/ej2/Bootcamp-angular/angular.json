@@ -3,37 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gHobits": {
+    "Bootcamp-angular": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:class": {
-          "skipTests": true
-        },
-        "@schematics/angular:component": {
-          "skipTests": true,
-          "standalone": false
-        },
-        "@schematics/angular:directive": {
-          "skipTests": true,
-          "standalone": false
-        },
-        "@schematics/angular:guard": {
-          "skipTests": true
-        },
-        "@schematics/angular:interceptor": {
-          "skipTests": true
-        },
-        "@schematics/angular:pipe": {
-          "skipTests": true,
-          "standalone": false
-        },
-        "@schematics/angular:resolver": {
-          "skipTests": true
-        },
-        "@schematics/angular:service": {
-          "skipTests": true
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -41,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/g-hobits",
+            "outputPath": "dist/bootcamp-angular",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -55,6 +27,8 @@
               }
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -87,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "gHobits:build:production"
+              "buildTarget": "Bootcamp-angular:build:production"
             },
             "development": {
-              "buildTarget": "gHobits:build:development"
+              "buildTarget": "Bootcamp-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
