@@ -1,0 +1,5 @@
+[2025-01-21T12:23:20.206011+01:00] Monologos.INFO: Saludo: ¡Buenas tardes! [] {"file":"C:\\xampp\\htdocs\\mañana\\2-DAW-1\\DWES\\T5(ServiciosWeb)\\Monologos\\src\\HolaMonolog.php","line":30,"class":"Monologos\\HolaMonolog","callType":"->","function":"saludar"}
+[2025-01-21T12:23:20.208137+01:00] Monologos.INFO: Despedida: ¡Hasta pronto! [] {"file":"C:\\xampp\\htdocs\\mañana\\2-DAW-1\\DWES\\T5(ServiciosWeb)\\Monologos\\src\\HolaMonolog.php","line":36,"class":"Monologos\\HolaMonolog","callType":"->","function":"despedir"}
+[2025-01-21T12:37:22.957161+01:00] Monologos.WARNING: La hora proporcionada (25) no es válida. [] []
+[2025-01-21T12:37:22.960034+01:00] Monologos.INFO: Saludo: ¡Buenas noches! [] {"file":"C:\\xampp\\htdocs\\mañana\\2-DAW-1\\DWES\\T5(ServiciosWeb)\\Monologos\\src\\HolaMonolog.php","line":30,"class":"Monologos\\HolaMonolog","callType":"->","function":"saludar"}
+[2025-01-21T12:37:22.960221+01:00] Monologos.INFO: Despedida: ¡Hasta mañana! [] {"file":"C:\\xampp\\htdocs\\mañana\\2-DAW-1\\DWES\\T5(ServiciosWeb)\\Monologos\\src\\HolaMonolog.php","line":36,"class":"Monologos\\HolaMonolog","callType":"->","function":"despedir"}
