@@ -7,5 +7,5 @@ if ($_SESSION['usuario'] !== 'cliente') {
 }
 
 echo "<h1>Bienvenido, cliente</h1>";
-echo "<a href='util/listadoClientes.phplistadoProductos.php'>Ver Productos</a><br>";
+echo "<a href='util/listadoClientes.php'>Ver Productos</a><br>";
 echo "<a href='cerrarSesion.php'>Cerrar sesión</a>";

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tablas Responsivas</title>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous"
+    />
+</head>
+<body>
+    <div class="container my-5">
+        <h2>Tablas Responsivas con Bootstrap</h2>
+
+        <!-- Primera tabla: Responsiva -->
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <caption>Personas ..... IMPORTANTES (Responsiva)</caption>
+                <thead class="table-dark">
+                    <tr >
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Edad</th>
+                        <th>Otros Datos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Sven Olof</td>
+                        <td>Joachim Palme</td>
+                        <td>86</td>
+                        <td>Texto muy largo que puede ajustarse al tamaño de la ventana.</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Giovanni</td>
+                        <td>Falcone</td>
+                        <td>73</td>
+                        <td>Texto muy largo que puede ajustarse al tamaño de la ventana.</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Paolo Emanuele</td>
+                        <td>Borsellino</td>
+                        <td>72</td>
+                        <td>Texto muy largo que puede ajustarse al tamaño de la ventana.</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Salvador Guillermo</td>
+                        <td>Allende Gossens</td>
+                        <td>104</td>
+                        <td>Texto muy largo que puede ajustarse al tamaño de la ventana.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Segunda tabla: No responsiva -->
+        <div class="overflow-auto">
+            <table class="table table-bordered" style="min-width: 800px;">
+                <caption>Personas ..... IMPORTANTES (No responsiva)</caption>
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Edad</th>
+                        <th>Otros Datos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Sven Olof</td>
+                        <td>Joachim Palme</td>
+                        <td>86</td>
+                        <td>Texto muy largo que requiere desplazamiento horizontal.</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Giovanni</td>
+                        <td>Falcone</td>
+                        <td>73</td>
+                        <td>Texto muy largo que requiere desplazamiento horizontal.</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Paolo Emanuele</td>
+                        <td>Borsellino</td>
+                        <td>72</td>
+                        <td>Texto muy largo que requiere desplazamiento horizontal.</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Salvador Guillermo</td>
+                        <td>Allende Gossens</td>
+                        <td>104</td>
+                        <td>Texto muy largo que requiere desplazamiento horizontal.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qibm5+GQNnzWcuKlvXX8UU92W2zXfrFnpT9+PxK3Q8HIQAR8prGJ4pzw6CX5K9G2"
+        crossorigin="anonymous"
+    ></script>
+</body>
+</html>

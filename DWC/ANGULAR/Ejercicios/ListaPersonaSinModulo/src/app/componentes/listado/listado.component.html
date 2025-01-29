@@ -1,0 +1,28 @@
+<a class="btn btn-primary" routerLink="/personas-add/-1" role="button">Añadir persona</a>
+<button type="button" class="btn btn-primary" (click)="iraNuevaPersona()">Añadir persona</button>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Dni</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+          
+            @for (persona of listarPer; track $index){
+            <tr>
+                <td>{{persona.id}}</td>
+                <td>{{ persona.dni }}</td>
+                <td>{{ persona.nombre }}</td>
+                <td>{{persona.apellidos}}</td>
+                <td><button (click)="iraEditar(persona.id)">Editar</button><button (click)="borrar(persona.id,persona.nombre)">Borrar</button></td>
+            </tr>
+        } 
+        </tbody>
+    </table>
+
+    <p>listado works!</p>
+
