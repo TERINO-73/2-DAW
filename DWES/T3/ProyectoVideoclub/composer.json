@@ -1,0 +1,20 @@
+{
+    "name": "vendor/vendor",
+    "autoload": {
+        "psr-4": {
+            "Dwes\\ProyectoVideoclub\\": "app/"
+        },
+    "authors": [
+        {
+            "name": "TERINO-73",
+            "email": "primeterino@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^3.8"
+    }
+},
+    "require": {
+        "psr/log": "^3.0"
+    }
+}
