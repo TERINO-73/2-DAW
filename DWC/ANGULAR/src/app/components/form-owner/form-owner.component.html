@@ -1,0 +1,46 @@
+<form class="form-horizontal" #ownerForm="ngForm" (ngSubmit)="onSubmit(ownerForm.value)">
+
+
+    
+    <div class="mb-3">
+        <label>NOMBRE:</label>
+        <input type="text" class="form-control" required [(ngModel)]="owner.firstName" name="firstName" #firsName="ngModel">
+        <div [hidden]="firsName.valid || firsName.pristine" class="alert alert-danger">
+            El PRIMER APELLIDO es obligatorio
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>APELLIDOS</label>
+        <input type="text" class="form-control" required [(ngModel)]="owner.lastName" name="lastName" #lastName="ngModel">
+        <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
+            El SEGUNDO APELLIDO es obligatorio
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        <label>DIRECCION:</label>
+        <input type="text" class="form-control" required [(ngModel)]="owner.address" name="address" #address="ngModel">
+        <div [hidden]="address.valid || address.pristine" class="alert alert-danger">
+            El APELLIDOS es obligatorio
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>CIUDAD:</label>
+        <input type="text" class="form-control" required [(ngModel)]="owner.city" name="city" #city="ngModel">
+        <div [hidden]="city.valid || city.pristine" class="alert alert-danger">
+            El CIUDAD es obligatorio
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>TELEFONO:</label>
+        <input type="text" class="form-control" required [(ngModel)]="owner.telephone" name="telephone" #telephone="ngModel">
+        <div [hidden]="telephone.valid || telephone.pristine" class="alert alert-danger">
+            El TELEFONO es obligatorio
+        </div>
+    </div>
+    
+    <div class="row">
+        <button type="submit" [disabled]="!ownerForm.valid" class="btn btn-primary col-2">{{textoBoton}}</button>
+        <button type="button" routerLink="/" role="button">CANCELAR</button>
+    </div>
+    </form>
