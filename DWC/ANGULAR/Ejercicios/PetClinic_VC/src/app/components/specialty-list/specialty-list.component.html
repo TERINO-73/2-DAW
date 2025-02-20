@@ -1,0 +1,37 @@
+<div class="container my-4">
+    <h1 class="text-center">Specialties List</h1>
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(specialty of specialties; track $index) {
+            <tr>
+                <td>
+                    <input type="text" class="form-control" [value]="specialty.name" [disabled]="true" />
+                </td>
+                <td>
+                    <button class="btn btn-warning me-2" (click)="editSpecialty(specialty)"
+                        style="min-width: 100px;">Edit</button>
+                    <button class="btn btn-danger" (click)="eliminarSpecialty(specialty.id)"
+                        style="min-width: 100px;">Delete</button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-dark" (click)="addNewSpecialty()" style="min-width: 150px;">New
+        Specialty</button>
+
+    @if (showForm) {
+    <app-specialty-add 
+    [addMode]="addMode" 
+    [specialtyToEdit]="specialtyToEdit"
+    (cancel)="showForm = false; specialtyToEdit = null"
+    (specialtyAdded)="ngOnInit()">
+    </app-specialty-add>
+    }
+</div>

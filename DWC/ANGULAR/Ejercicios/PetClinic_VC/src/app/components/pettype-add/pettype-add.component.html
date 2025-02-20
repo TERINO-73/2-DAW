@@ -1,0 +1,19 @@
+<div class="container my-4">
+    <h2>{{ addMode ? 'Add Pet Type' : 'Edit Pet Type' }}</h2>
+
+    <form #petTypeForm="ngForm" (ngSubmit)="onSubmit(petTypeForm.value)">
+        <!-- Aquí se pueden agregar los campos del formulario -->
+        <div class="form-group">
+            <label for="typeName">Type Name: </label>
+            @if (typeToEdit) {
+                <input type="text" id="typeName" class="form-control" [(ngModel)]="editableType.name" name="name">
+            }
+            @else {
+                <input type="text" id="typeName" class="form-control" [(ngModel)]="newType.name" name="name">
+            }
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-4 mt-2 me-4" style="min-width: 150px;">{{ addMode ? 'Add' : 'Save' }}</button>
+        <button type="button" class="btn btn-secondary mb-4 mt-2" (click)="cancelar()" style="min-width: 150px;">Cancel</button>
+    </form>
+</div>

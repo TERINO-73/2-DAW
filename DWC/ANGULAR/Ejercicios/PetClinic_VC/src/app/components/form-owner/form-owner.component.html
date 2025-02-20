@@ -1,0 +1,50 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">{{texto}}</h1>
+
+    <!-- Formulario -->
+    <form #ownerForm="ngForm" name="ngForm" (ngSubmit)="onSubmit(ownerForm.value)">
+        <div class="mb-3">
+            <label class="form-label">First Name:</label>
+            <input type="text" name="firstName" required [(ngModel)]="owner.firstName" #firstName="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="firstName.valid || firstName.pristine">
+                Name is required
+            </div>
+
+            <label class="form-label">Last Name:</label>
+            <input type="text" name="lastName" required [(ngModel)]="owner.lastName" #lastName="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="lastName.valid || lastName.pristine">
+                Last Name is required
+            </div>
+
+            <label class="form-label">Address:</label>
+            <input type="text" name="address" required [(ngModel)]="owner.address" #address="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="address.valid || address.pristine">
+                Address is required
+            </div>
+
+            <label class="form-label">City:</label>
+            <input type="text" name="city" required [(ngModel)]="owner.city" #city="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="city.valid || city.pristine">
+                City is required
+            </div>
+
+            <label class="form-label">Telephone:</label>
+            <input type="text" name="telephone" required [(ngModel)]="owner.telephone" #telephone="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="telephone.valid || telephone.pristine">
+                Telephone is required
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="mb-3 d-grid gap-2 d-md-flex">
+
+            <button type="submit" class="btn btn-primary" [disabled]="!ownerForm.valid" (click)="anadirYeditarOwner()" style="min-width: 150px;">{{texto}}</button>
+            <button type="button" class="btn btn-secondary" routerLink="/" style="min-width: 150px;">Cancel</button>
+
+        </div>
+
+
+    </form>
+
+</div>

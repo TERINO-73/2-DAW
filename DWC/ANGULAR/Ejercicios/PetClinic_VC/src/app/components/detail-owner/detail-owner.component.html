@@ -1,0 +1,44 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">Owner Details</h1>
+
+    <!-- Detalles del propietario -->
+    <h2>Propietario</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>First Name</th>
+                    <td>{{owner.firstName}}</td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td>{{owner.lastName}}</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>{{owner.address}}</td>
+                </tr>
+                <tr>
+                    <th>City</th>
+                    <td>{{owner.city}}</td>
+                </tr>
+                <tr>
+                    <th>Telephone</th>
+                    <td>{{owner.telephone}}</td>
+                </tr>
+                <tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <a class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover" routerLink="/">Back</a>
+        <a class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover ms-3" (click)="eliminarOwner(owner.id)">Delete Owner</a>
+        <a class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover ms-3" routerLink="/formOwner/{{owner.id}}">Edit Owner</a>
+        <a class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover ms-3" routerLink="/petAdd/{{owner.id}}/-1">Add New Pet</a>
+    </div>
+</div>
+
+<!-- Pasar el ownerId a pet-list -->
+ <app-pet-list [ownerId]="owner.id"></app-pet-list>

@@ -1,9 +1,11 @@
 <?php
+header("Access-Control-Allow-Origin: *"); // allow request from all origin
+header('Access-Control-Allow-Credentials: true');
+header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT");
+header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-header("Content-Type: application/json; charset=UTF-8");
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST');
-header('Access-Control-Allow-Headers: *');
+header('Content-Type: application/json');  //  Todo se devolverá en formato JSON.
+
 
 /*
 header("Access-Control-Allow-Origin: *");
@@ -11,7 +13,7 @@ header('Content-Type: application/json');  //  Todo se devolverá en formato JSO
 */
 
 
-require_once 'modelos.php';
+require_once 'servidor.php';
 $modelo = new Modelo();
 
 //  Con esta línea recogemos los datos (en formato JSON), enviados por el cliente:
@@ -19,7 +21,6 @@ $datos = file_get_contents('php://input');  //  $datos es un string, y no un obj
 //  Lo convertimos a un objeto php:
 $objeto=json_decode($datos);
 
-// VOLVER A COMENTAAAAAAAAAAR!!!!!!
 	// $objeto = new stdClass();
 	// $objeto->accion = "ListarOwners";
 	// $objeto->id = 9;

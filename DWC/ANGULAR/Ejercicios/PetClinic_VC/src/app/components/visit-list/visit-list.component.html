@@ -1,0 +1,36 @@
+<!-- Contenedor principal -->
+<div class="container mb-4">
+    @if (visitList.length == 0) {
+    <h2>There is no visits</h2>
+    }
+    @else {
+
+    <!-- Listar visitas -->
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th scope="col">Visit Date</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+
+            @for (visit of visitList; track $index) {
+            <tr>
+                <td>{{visit.visitDate}}</td>
+                <td>{{visit.description}}</td>
+                <td>
+                    <button type="button" class="btn btn-warning" routerLink="/visitAdd/{{visit.pet}}/{{visit.id}}">Edit Visit</button>
+                    <button type="button" class="btn btn-danger ms-3" (click)="eliminarVisit(visit.id)">Delete Visit</button>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+    }
+
+</div>
