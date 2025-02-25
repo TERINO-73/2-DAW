@@ -38,7 +38,7 @@ export class DetailOwnerComponent {
   //OTROS METODOS
   eliminarOwner(id: number) {
     //Confirmacion
-    if (confirm("Are you sure you want to delete this owner with id " + id + "?")) {
+    if (confirm("Estas seguro d que quieres borrar el local con " + id + "?")) {
       this.serviceOwner.eliminarOwner(id).subscribe({
         next: res => {
           this.ruta.navigate(['/']);

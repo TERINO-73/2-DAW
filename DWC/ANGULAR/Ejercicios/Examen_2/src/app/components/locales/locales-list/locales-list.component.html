@@ -1,0 +1,50 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">locals List</h1>
+
+    <!-- Contenedor de la tabla -->
+    <div class="table-responsive">
+        <!-- Tabla locals -->
+        <table class="table table-hover">
+
+            <thead>
+                <!-- Encabezados de la tabla -->
+                <tr>
+                    <th>Nombre</th>
+                    <th>Zona</th>
+                    <th>Teléfono</th>
+                    <th>Direccion</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-group-divider">
+                <!-- Contenido de la tabla -->
+
+                <!-- Recorrer array listlocals -->
+                 @for (local of listLocales; track $index) {
+                    <tr>
+                        
+                        <!-- Link hacia el detalle del propietario -->
+                        <td><a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" routerLink="/detalle-local/{{local.id}}">{{local.nombre}}</a></td>
+                        <td>{{local.zona}}</td>
+                        <td>{{local.telefono}}</td>
+                        <td>{{local.direccion}}</td>
+
+
+ 
+
+                    </tr>
+                 }
+            </tbody>
+
+        </table>
+
+        <div>
+            <button type="button" class="btn btn-dark" routerLink="/formlocal/-1">New local</button>
+        </div>
+
+    </div>
+
+  </div>
+  
+

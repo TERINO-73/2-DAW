@@ -1,0 +1,29 @@
+<div class="container my-4">
+    <h2>{{ addMode ? 'Add Pet Type' : 'Edit Pet Type' }}</h2>
+  
+    <form [formGroup]="zonasForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="typeName">Type Name:</label>
+        <input 
+          type="text" 
+          id="typeName" 
+          class="form-control" 
+          formControlName="nombre"
+        />
+        
+        @if (isSubmitted() && zonasForm.controls['nombre'].invalid) {
+          <div class="text-danger">
+            Name is required.
+          </div>
+        }
+      </div>
+  
+      <button type="submit" class="btn btn-primary mb-4 mt-2 me-4" style="min-width: 150px;" [disabled]="zonasForm.invalid">
+        {{ addMode ? 'Add' : 'Save' }}
+      </button>
+      <button type="button" class="btn btn-secondary mb-4 mt-2" (click)="cancelar()" style="min-width: 150px;">
+        Cancel
+      </button>
+    </form>
+  </div>
+  

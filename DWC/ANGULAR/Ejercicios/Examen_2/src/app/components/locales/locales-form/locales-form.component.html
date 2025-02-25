@@ -1,0 +1,52 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">{{texto}}</h1>
+
+    <!-- Formulario -->
+    <form #localForm="ngForm" name="ngForm" (ngSubmit)="onSubmit(localForm.value)">
+        <div class="mb-3">
+            <label class="form-label">First Name:</label>
+            <input type="text" name="firstName" required [(ngModel)]="local.nombre" #firstName="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="firstName.valid || firstName.pristine">
+                Name is required
+            </div><br>
+
+            <div class="mb-3">
+                <label class="form-label">Zona:</label>
+                <input type="text" name="zona" required [(ngModel)]="local.zona" #zona="ngModel" class="form-control">
+                <button routerLink="/zonas-list/{{local.id}}">Anade Zona</button>
+                <div class="text-danger" [hidden]="zona.valid || zona.pristine">
+                    Name is required
+                </div><br>
+
+            <label class="form-label">Teléfono:</label>
+            <input type="text" name="telefono" required [(ngModel)]="local.telefono" #telefono="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="telefono.valid || telefono.pristine">
+                Telefono is required
+            </div><br>
+
+            <label class="form-label">Direccion:</label>
+            <input type="text" name="direccion" required [(ngModel)]="local.direccion" #direccion="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="direccion.valid || direccion.pristine">
+                direccion is required
+            </div><br>
+
+            <label class="form-label">observaciones</label>
+            <input type="text" name="observaciones" required [(ngModel)]="local.observaciones" #observaciones="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="observaciones.valid || observaciones.pristine">
+                observaciones is required
+            </div><br>
+        </div>
+
+        <!-- Botones -->
+        <div class="mb-3 d-grid gap-2 d-md-flex">
+
+            <button type="submit" class="btn btn-primary" [disabled]="!localForm.valid" (click)="anadirYeditarLocal()" style="min-width: 150px;">{{texto}}</button>
+            <button type="button" class="btn btn-secondary" routerLink="/" style="min-width: 150px;">Cancel</button>
+
+        </div>
+
+
+    </div>
+</form>
+

@@ -1,0 +1,37 @@
+<!-- Contenedor principal -->
+<div class="container mb-4">
+
+  
+
+    <!-- Listar visitas -->
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Precio</th>
+                <th>Editar</th>
+                <th>Borrar</th>
+            </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+
+            @for (carta of ArrCartas; track $index) {
+            <tr>
+                <td>{{carta.descripcion}}</td>
+                <td>{{carta.tipo}}</td>
+                <td>{{carta.precio |currency:'€'}}<td>
+                <td>
+                    <button type="button" class="btn btn-warning" routerLink="/Carta-form/{{carta.id}}">Edit Linea Carta</button></td>
+                   <td> <button type="button" class="btn btn-danger ms-3" (click)="eliminarCarta(carta.id)">Delete Linea Carta</button>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+    
+
+</div>
