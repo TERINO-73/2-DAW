@@ -1,0 +1,14 @@
+<div>
+    @for( visit of listarVist;track visit.id ;let element_id = $index){
+
+            <div><b>visitDate</b> <br> {{visit.visitDate}}</div>
+    <div><b>description</b><br> {{visit.description}}</div><br>
+    <div><a (click)="editarVisit(visit.id)">Edit Visit</a> <a (click)="borrarVisit(visit.id,visit.visitDate)">  Delete Visit</a></div><br><br>     
+
+    }
+
+</div>
+
+
+
+

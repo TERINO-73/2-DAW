@@ -1,0 +1,67 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">{{ addMode ? 'Add Pet' : 'Edit Pet'}}</h1>
+
+    <!-- Formulario Reactivo -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        
+        <div class="mb-3">
+            <label>Owner:</label>
+            <input type="text" class="form-control" formControlName="owner">
+            @if (form.controls["owner"].invalid && (form.controls["owner"].dirty || form.controls["owner"].touched)) {
+                @if (form.controls["owner"].errors?.["required"]) {
+                    <div class="alert alert-danger">El owner es obligatorio</div>
+                }
+                @if (form.controls["owner"].errors?.["minlength"]) {
+                    <div>El nombre debe tener al menos 9 caracteres</div>
+                }
+            }
+        </div>
+
+        <div class="mb-3">
+            <label>Name:</label>
+            <input type="text" class="form-control" formControlName="name">
+            @if (form.controls["name"].invalid && (form.controls["name"].dirty || form.controls["name"].touched)) {
+                @if (form.controls["name"].errors?.["required"]) {
+                    <div class="alert alert-danger">El name es obligatorio</div>
+                }
+                @if (form.controls["name"].errors?.["minlength"]) {
+                    <div>El nombre debe tener al menos 9 caracteres</div>
+                }
+            }
+        </div>
+
+        <div class="mb-3">
+            <label>Birth Date:</label>
+            <input type="text" class="form-control" formControlName="birthDate">
+            @if (form.controls["birthDate"].invalid && (form.controls["birthDate"].dirty || form.controls["birthDate"].touched)) {
+                @if (form.controls["birthDate"].errors?.["required"]) {
+                    <div class="alert alert-danger">El birthDate es obligatorio</div>
+                }
+            }
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Type:</label>
+            <select class="form-control" formControlName="type">
+                
+                @for (type of petTypes; track $index) {
+                    <option [value]="type.id">{{ type.name }}</option>
+                }
+            </select>
+            @if (form.controls["type"].invalid && (form.controls["type"].dirty || form.controls["type"].touched)) {
+                <div class="alert alert-danger">Type es obligatorio</div>
+            }
+        </div>
+        
+
+        <!-- Botones -->
+        <div class="mb-3 d-grid gap-2 d-md-flex">
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid" style="min-width: 150px;">
+                {{ addMode ? 'Add Pet' : 'Edit Pet' }}
+            </button>
+            <button type="button" class="btn btn-secondary" routerLink="/detailOwner/{{owner.id}}" style="min-width: 150px;">Cancel</button>
+        </div>
+
+    </form>
+</div>

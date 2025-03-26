@@ -1,0 +1,45 @@
+<div class="container my-4">
+    <h1 class="text-center">{{ addMode ? 'Add Sexo' : 'Edit Sexo'}}</h1>
+
+    <!-- Formulario Reactivo -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        
+        <div class="mb-3">
+            <label>codigo:</label>
+            <input type="text" class="form-control" formControlName="codigo">
+            @if (form.controls["codigo"].invalid && (form.controls["codigo"].dirty || form.controls["codigo"].touched)) {
+                @if (form.controls["codigo"].errors?.["required"]) {
+                    <div class="alert alert-danger">El codigo es obligatorio</div>
+                }
+                @if (form.controls["codigo"].errors?.["minlength"]) {
+                    <div>El codigo debe tener al menos 9 caracteres</div>
+                }
+            }
+        </div>
+
+        <div class="mb-3">
+            <label>nombre:</label>
+            <input type="text" class="form-control" formControlName="nombre">
+            @if (form.controls["nombre"].invalid && (form.controls["nombre"].dirty || form.controls["nombre"].touched)) {
+                @if (form.controls["nombre"].errors?.["required"]) {
+                    <div class="alert alert-danger">El nombre es obligatorio</div>
+                }
+
+            }
+        </div>
+
+
+
+
+        
+
+        <!-- Botones -->
+        <div class="mb-3 d-grid gap-2 d-md-flex">
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid" style="min-width: 150px;">
+                {{ addMode ? 'Add Sexo' : 'Edit Sexo' }}
+            </button>
+            <button type="button" class="btn btn-secondary" routerLink="/sexo/" style="min-width: 150px;">Cancel</button>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,45 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">Local Details</h1>
+
+    <!-- Detalles del propietario -->
+    <h2>Propietario</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Nombre</th>
+                    <td>{{local.nombre}}</td>
+                </tr>
+                <tr>
+                    <th>Zona</th>
+                    <td>{{local.zona}}</td>
+                </tr>
+                <tr>
+                    <th>Teléfono</th>
+                    <td>{{local.telefono}}</td>
+                </tr>
+                <tr>
+                    <th>Direccion</th>
+                    <td>{{local.direccion}}</td>
+                </tr>
+                <tr>
+                    <th>Observaciones</th>
+                    <td>{{local.observaciones}}</td>
+                </tr>
+                <tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <a class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover" routerLink="/">Volver</a>
+        <a class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover ms-3" (click)="eliminarLocal(local.id,local.nombre)">    Eliminar local</a>
+        <a class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover ms-3" routerLink="/formlocal/{{local.id}}">   Editar Local</a>
+        <a class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover ms-3" routerLink="/Carta-form/{{local.id}}/-1">    Añadir a carta</a>
+    </div>
+</div>
+
+<!-- Pasar el localId a pet-list -->
+ <app-cartas-list [ArrCartas]="local.carta" (elimina)="ngOnInit()"></app-cartas-list>
+

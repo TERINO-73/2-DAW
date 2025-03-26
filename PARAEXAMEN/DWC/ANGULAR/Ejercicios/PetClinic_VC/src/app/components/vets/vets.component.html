@@ -1,0 +1,50 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">Vets List</h1>
+
+    <!-- Contenedor de la tabla -->
+    <div class="table-responsive">
+        <!-- Tabla vets -->
+        <table class="table table-hover">
+
+            <thead>
+                <!-- Encabezados de la tabla -->
+                <tr>
+                    <th>Name</th>
+                    <th>Lastname</th>
+                    <th>Specialties</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-group-divider">
+                <!-- Recorrer array listVets -->
+                @for (vet of listVets; track $index) {
+                    <tr>
+                        <td>{{vet.firstName}}</td>
+                        <td>{{vet.lastName}}</td>
+                        <td>
+                            @for (specialty of vet.specialties; track $index) {
+                                {{ specialty.name }}{{ $index < vet.specialties.length - 1 ? ', ' : '' }}
+                            }
+                        </td>
+
+                        <!-- Botones -->
+                        <td>
+                            <button type="button" class="btn btn-warning" routerLink="/vetAdd/{{vet.id}}">Edit Vet</button>
+                            <button type="button" class="btn btn-danger ms-2" (click)="eliminarVet(vet.id)">Delete Vet</button>
+                        </td>
+                    </tr>
+                }
+                
+            </tbody>
+
+        </table>
+
+        <div>
+            <button type="button" class="btn btn-dark" routerLink="/vetAdd/-1">New Vet</button>
+        </div>
+
+    </div>
+</div>
+

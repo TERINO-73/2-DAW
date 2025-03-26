@@ -1,0 +1,56 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+
+    <!-- Si el array no tiene mascotas -->
+    @if (petList.length == 0) {
+    <h2>There is no Pets</h2>
+    }
+    <!-- Si el array tiene mascotas -->
+    @else {
+    <h2>Pets & Visits</h2>
+
+    <div class="row"> 
+        <!-- Listar mascotas -->
+        @for (pet of petList; track $index) {
+        <div class="col-md-4"> 
+            <!-- Tabla de las mascotas -->
+            <table class="table table-borderless">
+                <tbody>
+
+                    <tr>
+                        <th>Name</th>
+                        <td>{{pet.name}}</td>
+                    
+
+                    </tr>
+
+                    <tr>
+                        <th>Birth Date</th>
+                        <td>{{pet.birthDate}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Type</th>
+                        <td>{{pet.typeName}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <div class="mb-5">
+                <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                    routerLink="/petAdd/{{ownerId}}/{{pet.id}}">Edit Pet</a>
+                <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
+                    (click)="eliminarPet(pet.id)">Delete Pet</a>
+                <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
+                    routerLink="/visitAdd/{{pet.id}}/-1">Add Visit</a>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <app-visit-list [petId]="pet.id"></app-visit-list>
+        </div>
+        }
+    </div>
+    }
+</div>

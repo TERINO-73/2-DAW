@@ -1,0 +1,24 @@
+<h3>Propietario</h3>
+
+<table>
+    <tr>
+        <th>NOMBRE: </th>
+        <td><b>{{owner.firstName}} {{owner.lastName}}</b></td>
+    </tr>
+    <tr>
+        <th>DIRECCION: </th>
+        <td><b>{{owner.address}}</b></td>
+    </tr>
+    <tr>
+        <th>CIUDAD: </th>
+        <td><b>{{owner.city}}</b></td>
+    </tr>
+    <tr>
+        <th>TELÉFONO: </th>
+        <td><b>{{owner.telephone}} </b></td>
+    </tr>
+</table>
+
+<div><a routerLink="/">Volver</a><a (click)="borrar(owner.id,owner.firstName)"> Eliminar owner</a> <a (click)="iraEditar(owner.id)">  Editar</a><a (click)="AnadePet()">   Añadeeee</a></div>
+<br><br>
+<app-pet-list></app-pet-list>

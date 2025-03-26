@@ -1,0 +1,78 @@
+<form class="form-horizontal" [formGroup]="form" (ngSubmit)="anadirYeditarOwner()">
+
+
+    <div class="mb-3">
+        <label>firstName:</label>
+        <input type="text" class="form-control" required formControlName="firstName">
+        @if(form.controls["firstName"].invalid && (form.controls["firstName"].dirty || form.controls["firstName"].touched)){
+            @if(form.controls["firstName"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El firstName es obligatorio
+                </div>
+            }
+
+        }
+
+    </div>   
+    <div class="mb-3">
+        <label>lastName:</label>
+        <input type="text" class="form-control" required formControlName="lastName">
+        @if(form.controls["lastName"].invalid && (form.controls["lastName"].dirty || form.controls["lastName"].touched)){
+            @if(form.controls["lastName"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El lastName es obligatorio
+                </div>
+            }
+
+        }
+    </div>
+    
+    <div class="mb-3">
+        <label>address:</label>
+        <input type="text" class="form-control" required formControlName="address">
+        @if(form.controls["address"].invalid && (form.controls["address"].dirty || form.controls["address"].touched)){
+            @if(form.controls["address"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El address es obligatorio
+                </div>
+            }
+
+        }
+    </div>
+
+    <div class="mb-3">
+        <label>city:</label>
+        <input type="text" class="form-control" required formControlName="city">
+        @if(form.controls["city"].invalid && (form.controls["city"].dirty || form.controls["city"].touched)){
+            @if(form.controls["city"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El city es obligatorio
+                </div>
+            }
+
+        }
+    </div>
+
+    <div class="mb-3">
+        <label>telephone:</label>
+        <input type="text" class="form-control" required formControlName="telephone">
+        @if(form.controls["telephone"].invalid && (form.controls["telephone"].dirty || form.controls["telephone"].touched)){
+            @if(form.controls["telephone"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El telephone es obligatorio
+                </div>
+            }
+            @if(form.controls["telephone"].errors?.["minlength"]){
+                <div>
+                    El nombre debe tener al menos 9 caracteres
+                </div>
+            }
+
+        }
+    </div>
+    
+    <div class="row">
+        <button type="submit"  class="btn btn-primary col-2">{{texto}}</button>
+        <button type="button" routerLink="/" role="button">CANCELAR</button>
+    </div>
+    </form>

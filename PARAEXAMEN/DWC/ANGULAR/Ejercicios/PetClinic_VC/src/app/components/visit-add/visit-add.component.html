@@ -1,0 +1,54 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">{{ addMode ? 'Add Visit' : 'Edit Visit'}}</h1>
+    <h2>Pet</h2>
+
+    <div class="table-responsive mb-5">
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Birth Date</th>
+                    <th>Type</th>
+                    <th>Owner</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-group-divider">
+                <tr>
+                    <td>{{pet.name}}</td>
+                    <td>{{pet.birthDate}}</td>
+                    <td>{{pet.type.name}}</td>
+                    <td>{{pet.owner.firstName}} {{pet.owner.lastName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <form #visitForm="ngForm" name="ngForm" (ngSubmit)="onSubmit(visitForm.value)">
+
+        <div class="mb-3">
+            <label class="form-label">Date:</label>
+            <input type="date" name="date" required [(ngModel)]="visit.visitDate" #date="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="date.valid || date.pristine">
+                Date is required
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description:</label>
+            <input type="text" name="description" required [(ngModel)]="visit.description" #description="ngModel" class="form-control">
+            <div class="text-danger" [hidden]="description.valid || description.pristine">
+                Description is required
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="mb-3 d-grid gap-2 d-md-flex">
+            <button type="submit" class="btn btn-primary" [disabled]="!visitForm.valid" style="min-width: 150px;" (click)="addMode ? insertarVisit() : modificarVisit()">{{ addMode ? 'Add Visit' : 'Edit Visit'}}</button>
+            <button type="button" class="btn btn-secondary" routerLink="/detailOwner/{{pet.owner.id}}" style="min-width: 150px;">Cancel</button>
+        </div>
+
+    </form>
+</div>

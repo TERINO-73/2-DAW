@@ -1,0 +1,14 @@
+
+            
+
+        @for(pet of listarPet; track $index){
+            
+            <div><b>Nombre</b> <br> {{pet.name}}</div>
+            <div><b>Birthdate</b><br> {{pet.birthDate}}</div>
+            <div><b>Type</b><br> {{pet.type}}</div><br><br>
+            <app-visit-list [listarVist]="pet.visits"></app-visit-list>
+
+            <div><a (click)="editaPet(pet.id)">Edit Pet</a> <a (click)="borraPet(pet.id,pet.name)">  Delete Pet</a> <a (click)="AnadeVisita()">  Add Visit</a></div><br><br>     
+        } 
+  
+

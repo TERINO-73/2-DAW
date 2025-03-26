@@ -1,0 +1,42 @@
+.tarifas-container {
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    text-align: center;
+    margin-top: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .tarifas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .tarifa {
+    background: #ff9800;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 220px;
+    transition: transform 0.3s, background 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tarifa:hover {
+    transform: scale(1.05);
+    background: #e68900;
+  }
+  
+  .precio {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  .descripcion {
+    font-size: 1em;
+    margin-top: 10px;
+  }

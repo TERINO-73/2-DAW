@@ -1,0 +1,153 @@
+/* Fondo general con un azul oscuro y textura sutil */
+body {
+  background-color: #0d1b2a; /* Fondo de azul marino oscuro */
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Título central con gradiente épico */
+h2 {
+  font-size: 3.5rem;
+  color: transparent;
+  background: linear-gradient(45deg, #1e3c72, #ff5722); /* Azul a naranja brillante */
+  -webkit-background-clip: text;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3); /* Sombra épica */
+  margin-bottom: 50px;
+  animation: fadeIn 2s ease-in-out; /* Animación de aparición */
+}
+
+/* Animación de fadeIn para el título */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Estilo de la tabla con bordes luminosos */
+.table {
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #1f3a68; /* Fondo oscuro para la tabla */
+  box-shadow: 0 6px 40px rgba(0, 0, 0, 0.2); /* Sombra fuerte */
+  transform: perspective(1500px); /* Efecto 3D */
+}
+
+/* Encabezado de la tabla con un gradiente neón */
+.table thead th {
+  background: linear-gradient(45deg, #0d74f5, #ff9800); /* Gradiente de azul a naranja */
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 1.2rem;
+  font-size: 1.1rem;
+  text-align: center;
+  border: none;
+  border-bottom: 3px solid #ff5722; /* Borde neón */
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3); /* Sombra neón */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Efecto de hover en los encabezados de tabla */
+.table thead th:hover {
+  background: linear-gradient(45deg, #ff9800, #0d74f5); /* Cambio de colores al pasar */
+  box-shadow: 0 4px 30px rgba(255, 87, 34, 0.5); /* Sombra más intensa */
+  transform: scale(1.05);
+}
+
+/* Filas de la tabla con borde y efectos hover */
+.table td {
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+  padding: 1.4rem;
+  border: 1px solid #1e3c72;
+  background-color: #2a3d66; /* Color oscuro para las celdas */
+  transition: all 0.3s ease-in-out;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra de las celdas */
+}
+
+/* Efecto hover en las filas de la tabla */
+.table-row:hover {
+  background-color: #ff5722; /* Naranja intenso */
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 6px 30px rgba(255, 87, 34, 0.5); /* Resplandor naranja */
+  transition: all 0.4s ease;
+  border-radius: 12px;
+}
+
+/* Interactividad con el mouse: Transformación 3D en filas */
+.table-row {
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Celdas de la tabla con sombra e interactividad */
+.table td:hover {
+  transform: scale(1.1);
+  background-color: #ff9800; /* Naranja brillante */
+  box-shadow: 0 4px 30px rgba(255, 87, 34, 0.6); /* Resplandor al pasar el mouse */
+}
+
+/* Efecto de neón en las celdas al pasar el mouse */
+.table-hover tbody tr:hover {
+  background-color: #ff5722; /* Naranja brillante */
+  color: white;
+  box-shadow: 0 8px 40px rgba(255, 87, 34, 0.7); /* Efecto neón */
+  transform: translateZ(15px); /* Elevación 3D al pasar */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Bordes de la tabla con un borde brillante */
+.table-bordered {
+  border: 2px solid #ff9800; /* Borde naranja brillante */
+}
+
+.table-bordered td, .table-bordered th {
+  border-color: #ff5722; /* Borde naranja oscuro */
+}
+
+/* Alternancia de color en filas */
+.table tbody tr:nth-child(odd) {
+  background-color: #2a3d66; /* Azul oscuro */
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #3e5f8a; /* Azul más claro */
+}
+
+/* Agregar sombra de iluminación para la tabla */
+.shadow-xl {
+  box-shadow: 0 6px 60px rgba(0, 0, 0, 0.25); /* Sombra más fuerte y profunda */
+}
+
+/* Animación de entrada para la tabla */
+@keyframes tableEnter {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table {
+  animation: tableEnter 1s ease-out;
+}

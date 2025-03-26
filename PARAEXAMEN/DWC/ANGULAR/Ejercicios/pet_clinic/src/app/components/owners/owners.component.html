@@ -1,0 +1,29 @@
+<a class="btn btn-primary" routerLink="/Owner-add/-1" role="button">Añadir owner</a>
+<button type="button" class="btn btn-primary" (click)="iraNuevoOwner()">Añadir owner</button>
+    <table border="1">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>firstName</th>
+            <th>lastName</th>
+            <th>address</th>
+            <th>city</th>
+            <th>telephone</th>
+            <th>pets</th>
+        </tr>
+    </thead>
+    <tbody>
+      
+        @for (owner of listarOwn; track $index){
+        <tr>
+            <td>{{owner.id}}</td>
+            <td><a routerLink="/Detail-owner/{{owner.id}}">{{owner.firstName}}</a></td>
+            <td>{{ owner.lastName}}</td>
+            <td>{{owner.address}}</td>
+            <td>{{owner.city}}</td>
+            <td>{{owner.telephone}}</td>
+            <td>{{owner.pets}}</td>
+        </tr>
+    } 
+    </tbody>
+</table>

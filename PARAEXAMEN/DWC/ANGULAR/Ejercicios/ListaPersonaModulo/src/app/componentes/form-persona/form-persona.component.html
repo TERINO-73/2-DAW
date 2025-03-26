@@ -1,0 +1,31 @@
+<form class="form-horizontal" #personaForm="ngForm" (ngSubmit)="onSubmit(personaForm.value)">
+
+<div class="mb-3">
+    <label>DNI:</label>
+    <input type="text" class="form-control" required [(ngModel)]="persona.dni" name="dni" #dni="ngModel">
+    <div [hidden]="dni.valid || dni.pristine" class="alert alert-danger">
+        El DNI es obligatorio
+    </div>
+</div>
+
+<div class="mb-3">
+    <label>NOMBRE:</label>
+    <input type="text" class="form-control" required [(ngModel)]="persona.nombre" name="nombre" #dni="ngModel">
+    <div [hidden]="dni.valid || dni.pristine" class="alert alert-danger">
+        El NOMBRE es obligatorio
+    </div>
+</div>
+
+<div class="mb-3">
+    <label>APELLIDOS:</label>
+    <input type="text" class="form-control" required [(ngModel)]="persona.apellidos" name="apellidos" #dni="ngModel">
+    <div [hidden]="dni.valid || dni.pristine" class="alert alert-danger">
+        El APELLIDOS es obligatorio
+    </div>
+</div>
+
+<div class="row">
+    <button type="submit" [disabled]="!personaForm.valid" class="btn btn-primary col-2">{{textoBoton}}</button>
+    <button type="button" routerLink="/" role="button">CANCELAR</button>
+</div>
+</form>

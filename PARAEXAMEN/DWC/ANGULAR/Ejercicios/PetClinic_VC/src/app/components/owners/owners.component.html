@@ -1,0 +1,57 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">Owners List</h1>
+
+    <!-- Contenedor de la tabla -->
+    <div class="table-responsive">
+        <!-- Tabla owners -->
+        <table class="table table-hover">
+
+            <thead>
+                <!-- Encabezados de la tabla -->
+                <tr>
+                    <th>Name</th>
+                    <th>Lastname</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Telephone</th>
+                    <th>Pets</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-group-divider">
+                <!-- Contenido de la tabla -->
+
+                <!-- Recorrer array listOwners -->
+                 @for (owner of listOwners; track $index) {
+                    <tr>
+                        
+                        <!-- Link hacia el detalle del propietario -->
+                        <td><a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" routerLink="/detailOwner/{{owner.id}}">{{owner.firstName}}</a></td>
+                        <td>{{owner.lastName}}</td>
+                        <td>{{owner.address}}</td>
+                        <td>{{owner.city}}</td>
+                        <td>{{owner.telephone | currency:'€'}}</td>
+                        <td>{{owner.pets}}</td>
+
+                        <!-- Botones -->
+                        <td>
+                            <button type="button" class="btn btn-warning" routerLink="/formOwner/{{owner.id}}">Edit</button>
+                            <button type="button" class="btn btn-danger ms-2" (click)="eliminarOwner(owner.id)">Delete</button>
+                        </td>
+
+                    </tr>
+                 }
+            </tbody>
+
+        </table>
+
+        <div>
+            <button type="button" class="btn btn-dark" routerLink="/formOwner/-1">New Owner</button>
+        </div>
+
+    </div>
+
+  </div>
+  

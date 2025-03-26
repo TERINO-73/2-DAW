@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    background-image: url('/assets/fondoweb.png'); /* Ruta de la imagen de fondo */
+    background-size: cover; /* Ajusta el tamaño para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    background-attachment: fixed; /* Hace que el fondo sea fijo mientras se hace scroll */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo general para el texto h2 */
+h2 {
+    font-family: 'Poppins', sans-serif; /* Usamos la fuente Poppins */
+    font-size: 3rem;  /* Tamaño del texto */
+    font-weight: 600;  /* Grosor de la fuente */
+    color: #f8a200; /* Color naranja */
+    text-align: center;  /* Centra el texto */
+    letter-spacing: 2px;  /* Espaciado entre letras */
+    text-transform: uppercase;  /* Pone el texto en mayúsculas */
+    transition: transform 0.3s ease, color 0.3s ease; /* Transición suave para hover */
+  }
+  
+  /* Efecto hover para que el texto "salte" */
+  h2:hover {
+    transform: translateY(-10px); /* Mueve el texto hacia arriba al hacer hover */
+    color: #ff6a00; /* Color más oscuro al hacer hover (opcional) */
+  }
+  

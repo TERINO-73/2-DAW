@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Personas con JsStore</title>
+    <script src="jsstore.min.js"></script>
+    <script src="jsstore.worker.min.js"></script>
+    <script src="BD.js"></script>
+    <script>
+        // Cargar personas al iniciar la página
+        window.onload = async () => {
+            await mostrarPersonas();
+        };
+
+        // Función para mostrar todas las personas
+        async function mostrarPersonas() {
+            const personas = await getPersonas();
+            const tabla = document.getElementById("tablaPersonas");
+            tabla.innerHTML = "";  // Limpiar tabla
+            personas.forEach(persona => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td>${persona.dni}</td>
+                    <td>${persona.nombre}</td>
+                    <td>${persona.apellidos || ""}</td>
+                    <td>${new Date(persona.fnacimiento).toLocaleDateString()}</td>
+                    <td>${persona.estatura || ""}</td>
+                    <td>${persona.foto ? `<img src="${persona.foto}" alt="Foto" width="50">` : "Sin foto"}</td>
+                    <td>
+                        <button onclick="editarPersona(${persona.id})">Editar</button>
+                        <button onclick="eliminarPersona(${persona.id})">Eliminar</button>
+                    </td>
+                `;
+                tabla.appendChild(fila);
+            });
+        }
+
+        // Función para guardar una persona (añadir o actualizar)
+        async function guardarPersona() {
+            const id = document.getElementById("personaId").value;
+            const fileInput = document.getElementById("foto");
+            let fotoBase64 = null;
+
+            if (fileInput.files.length > 0) {
+                // Convertir la imagen a Base64
+                const file = fileInput.files[0];
+                fotoBase64 = await convertirImagenABase64(file);
+            }
+
+            const persona = {
+                dni: document.getElementById("dni").value,
+                nombre: document.getElementById("nombre").value,
+                apellidos: document.getElementById("apellidos").value,
+                fnacimiento: new Date(document.getElementById("fnacimiento").value),
+                estatura: parseFloat(document.getElementById("estatura").value),
+                foto: fotoBase64, // Agregar la foto al objeto persona
+            };
+
+            if (id) {
+                await updatePersona(parseInt(id), persona);
+            } else {
+                await addPersona(persona);
+            }
+            document.getElementById("personaForm").reset();
+            mostrarPersonas();
+        }
+
+        // Función para convertir una imagen a Base64
+        function convertirImagenABase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Función para cargar datos en el formulario y editar una persona
+        async function editarPersona(id) {
+            const personas = await getPersonas();
+            const persona = personas.find(p => p.id === id);
+            document.getElementById("personaId").value = persona.id;
+            document.getElementById("dni").value = persona.dni;
+            document.getElementById("nombre").value = persona.nombre;
+            document.getElementById("apellidos").value = persona.apellidos;
+            document.getElementById("fnacimiento").value = new Date(persona.fnacimiento).toISOString().substr(0, 10);
+            document.getElementById("estatura").value = persona.estatura;
+            // No cargar foto en el input file, ya que no se puede establecer su valor por JavaScript
+        }
+
+        // Función para eliminar una persona
+        async function eliminarPersona(id) {
+            if (confirm("¿Deseas eliminar a esta persona?")) {
+                await deletePersona(id);
+            }
+            mostrarPersonas();
+        }
+    </script>
+</head>
+<body>
+    <h1>CRUD de Personas</h1>
+    
+    <!-- Formulario para añadir o actualizar persona -->
+    <form id="personaForm">
+        <input type="hidden" id="personaId">
+        <label>DNI: <input type="text" id="dni" required></label><br>
+        <label>Nombre: <input type="text" id="nombre" required></label><br>
+        <label>Apellidos: <input type="text" id="apellidos"></label><br>
+        <label>Fecha de Nacimiento: <input type="date" id="fnacimiento" required></label><br>
+        <label>Estatura: <input type="number" id="estatura" step="0.01"></label><br>
+        <label>Foto: <input type="file" id="foto" accept="image/*"></label><br>
+        <button type="button" onclick="guardarPersona()">Guardar Persona</button>
+    </form>
+
+    <h2>Lista de Personas</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Estatura</th>
+                <th>Foto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tablaPersonas">
+            <!-- Los registros de personas se mostrarán aquí -->
+        </tbody>
+    </table>
+</body>
+</html>

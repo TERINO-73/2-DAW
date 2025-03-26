@@ -1,0 +1,29 @@
+<div class="container my-4">
+    <h2>{{ addMode ? 'Add Pet Type' : 'Edit Pet Type' }}</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Campo de nombre del tipo de mascota -->
+        <div class="form-group">
+            <label for="typeName">Type Name:</label>
+            <input type="text" id="typeName" class="form-control" formControlName="name">
+            
+            <!-- Validaciones -->
+            @if (form.controls["name"].invalid && (form.controls["name"].dirty || form.controls["name"].touched)) {
+                @if (form.controls["name"].errors?.["required"]) {
+                    <div class="alert alert-danger">
+                        The type name is required.
+                    </div>
+                }
+
+            }
+        </div>
+
+        <!-- Botones -->
+        <button type="submit" class="btn btn-primary mb-4 mt-2 me-4" style="min-width: 150px;" [disabled]="form.invalid">
+            {{ addMode ? 'Add' : 'Save' }}
+        </button>
+        <button type="button" class="btn btn-secondary mb-4 mt-2" (click)="cancelar()" style="min-width: 150px;">
+            Cancel
+        </button>
+    </form>
+</div>

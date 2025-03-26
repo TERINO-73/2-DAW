@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Envio de parametros con AJAX externo</title>
+	<style type="text/css">
+		/* Fondo de cuerpo tipo espacio exterior */
+		body {
+		  background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(14, 14, 36, 1) 60%, rgba(0, 0, 0, 1) 100%), url('https://i.imgur.com/dZOgyr5.jpg');
+		  background-size: cover;
+		  color: #ffffff;
+		  font-family: "Arial", sans-serif;
+		  text-align: center;
+		  margin: 0;
+		  height: 100vh;
+		}
+		
+		h3 {
+		  font-family: 'Star Jedi', sans-serif; /* Usa una fuente estilo Star Wars */
+		  font-size: 3em;
+		  color: #ffe81f;
+		  text-shadow: 0 0 30px #ffe81f, 0 0 40px #ffcc00;
+		  margin-bottom: 20px;
+		  animation: flicker 2s infinite alternate;
+		}
+		
+		/* Efecto de parpadeo en el título */
+		@keyframes flicker {
+		  0% { opacity: 1; text-shadow: 0 0 30px #ffe81f, 0 0 40px #ffcc00; }
+		  50% { opacity: 0.8; text-shadow: 0 0 10px #ffe81f, 0 0 20px #ffcc00; }
+		  100% { opacity: 1; text-shadow: 0 0 30px #ffe81f, 0 0 40px #ffcc00; }
+		}
+		
+		table.estilo_Tabla_1 {
+		  width: 85%;
+		  margin: 0 auto;
+		  border-collapse: collapse;
+		  background: rgba(0, 0, 0, 0.85);
+		  border-radius: 12px;
+		  overflow: hidden;
+		  box-shadow: 0 0 30px rgba(255, 232, 31, 0.8);
+		  transition: transform 0.5s ease;
+		}
+		
+		table.estilo_Tabla_1:hover {
+		  transform: scale(1.05);
+		}
+		
+		.estilo_Tabla_1 th {
+		  background: linear-gradient(135deg, #000000, #404040);
+		  color: #ffe81f;
+		  padding: 20px;
+		  font-size: 1.3em;
+		  border-bottom: 3px solid #ffe81f;
+		  text-transform: uppercase;
+		  letter-spacing: 2px;
+		  animation: glow 1.5s infinite alternate;
+		}
+		
+		/* Efecto de brillo en los encabezados */
+		@keyframes glow {
+		  0% { text-shadow: 0 0 10px #ffe81f, 0 0 20px #ffcc00; }
+		  100% { text-shadow: 0 0 30px #ffe81f, 0 0 40px #ffcc00; }
+		}
+		
+		.estilo_Tabla_1 td {
+		  border: 1px solid #ffe81f;
+		  color: #ffffff;
+		  padding: 15px;
+		  text-align: center;
+		  font-size: 1.1em;
+		  background: rgba(255, 255, 255, 0.05);
+		  transition: background 0.3s ease, color 0.3s ease;
+		}
+		
+		/* Efecto de animación en las filas al pasar el mouse */
+		tbody tr:hover {
+		  background: rgba(255, 255, 255, 0.2);
+		  transform: scale(1.05);
+		  transition: background 0.3s ease, transform 0.3s ease;
+		}
+		
+		tbody tr:nth-child(even) {
+		  background-color: rgba(255, 255, 255, 0.1);
+		}
+		
+		caption {
+		  caption-side: bottom;
+		  color: #ffe81f;
+		  font-size: 1.8em;
+		  font-weight: bold;
+		  margin-top: 10px;
+		  text-shadow: 0 0 10px #ffe81f, 0 0 20px #ffcc00;
+		}
+		
+		#datosPlaneta {
+		  color: #ffe81f;
+		  font-size: 1.2em;
+		  margin-top: 30px;
+		}
+		
+			</style>
+	<script type="text/javascript" src="claseAjax.js"></script>
+	<script type="text/javascript">
+
+		let peti = new pAJAX();
+		let surlPersonajes = "https://swapi.dev/api/people/?format=json";
+		window.onload = () => {
+			//  EJEMPLO DE PETICIÓN AJAX:
+			fetch(surlPersonajes)  //  por defecto es get
+				// La petición del servidor devuelve una respuesta que será convertida 
+				// a JSON, entonces el segund .then() recibirá el JSON y lo manejará
+				.then(function (respuesta) {
+					// return respuesta.text();  //  Así devuelve en la segunda promesa el resultado como texto
+					return respuesta.json();  //  Así devuelve en la segunda promesa el resultado como objeto javascript (JSON.parse)
+				})
+				// Recibe la respuesta del servidor ya formateada a JSON
+				.then(function (res) {
+					// Aquí llamamos a pintar la tabla o lo que queramos hacer
+					// con la respuesta, que es res ==> el objeto javascript con
+					// los datos de los personajes, la lista de estos.
+					recibePersonajes(res);
+				})
+				.catch(function (error) {
+					console.log('Error en la petición: ', error);
+				});
+		}
+
+		const addPlanetAttributes = planet => {
+			let divPlaneta = document.getElementById("datosPlaneta");
+			divPlaneta.innerHTML = "";
+			divPlaneta.innerHTML += "Datos del planeta<br>";
+			divPlaneta.innerHTML += "Nombre:" + planet.name + "<br>";
+			divPlaneta.innerHTML += "Periodo de rotación: " + planet.rotation_period + "<br>";
+			divPlaneta.innerHTML += "Periodo orbital: " + planet.orbital_period + "<br>";
+			divPlaneta.innerHTML += "Diámetro: " + planet.diameter + "<br>";
+			divPlaneta.innerHTML += "Clima: " + planet.climate + "<br>";
+			divPlaneta.innerHTML += "Gravedad: " + planet.gravity + "<br>";
+			divPlaneta.innerHTML += "Terreno: " + planet.terrain + "<br>";
+		}
+
+		function recibePersonajes(responseText) {
+			let respuesta = responseText;
+			document.getElementById("next").onclick = (e) => {
+				e.preventDefault();
+				fetch(respuesta.next)
+					.then(function (respuesta) {
+						return respuesta.json()
+					})
+					.then(function (res) {
+						recibePersonajes(res);
+					})
+			}
+			document.getElementById("previous").onclick = (e) => {
+				e.preventDefault();
+				fetch(respuesta.previous)
+					.then(function (respuesta) {
+						return respuesta.json()
+					})
+					.then(function (res) {
+						recibePersonajes(res);
+					})
+			}
+			let personajes = respuesta.results;
+			pintaPersonaje(personajes);
+		}
+
+
+		function crea_filaObj(arrayPersonaje, tipo) {
+			if (tipo == "cabecera")
+				tipo = "th";
+			else
+				tipo = "td";
+			let fila = document.createElement("tr");
+			let col;
+			// ele => cada atributo que se encuentra dentro del array 
+			// del personaje pasado por parámetro (arrayPersonaje)
+			arrayPersonaje.forEach((ele) => {
+				col = document.createElement(tipo);
+				col.innerHTML = ele;
+				fila.appendChild(col);
+			});
+			return fila; // Devuelve la fila con los datos de un personaje ya introducidos en ella
+		}
+
+
+		function obtenerUrlPlaneta() {
+			var enlacces = document.querySelectorAll("#cuerpoPersonajes a")
+			enlacces.forEach(function (a) {
+				a.onclick = function (e) {
+					e.preventDefault();
+					fetch(this.href)
+					.then(function (respuesta) {
+						return respuesta.json()
+					})
+					.then(function (res) {
+						addPlanetAttributes(res);
+					})
+				}
+			})
+		}
+
+
+		function pintaPersonaje(datos) {
+			var cuerpo = document.getElementById("cuerpoPersonajes");
+			cuerpo.innerHTML = "";
+			var link;
+
+			var datosPintar = datos.map(function (d) {
+				link = '<a href=" ' + d.homeworld + '?format=json">' + d.homeworld + '</a>';
+				return [d.name, d.height, d.mass, d.birth_year, d.gender, link];
+			})
+
+			/**
+			 * Utilizamos un foreach para pasarle en este caso cada uno de los 
+			 * arrays que se encuentran en el array datosPintar.
+			 * 
+			 * datosPintar es un array de arrays, por lo que 'd' se trata de cada array.
+			 * Este se pasará a la función 'crea_filaObj()', que devolverá la fila a insertar
+			 * dentro del cuerpo de la tabla.
+			 */
+			datosPintar.forEach((d) => {
+				cuerpo.appendChild(crea_filaObj(d))
+			})
+			obtenerUrlPlaneta();
+		}
+
+
+	</script>
+</head>
+
+<body>
+	<h3>THE API AWAKENS</h3>
+	<br />
+
+	<p>
+	<table id="personajes" class="estilo_Tabla_1">
+		<caption>Personajes STAR WARS</caption>
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Altura</th>
+				<th>Peso</th>
+				<th>Nacimiento</th>
+				<th>Género</th>
+				<th>Homeworld</th>
+			</tr> 
+		</thead>
+		<tbody id="cuerpoPersonajes">
+
+		</tbody>
+	</table>
+	<br>
+	<input type="submit" value="Previous" id="previous" name="previous">
+	<input type="submit" value="Next" id="next" name="next">
+	</p>
+
+	<br />
+	<div id="datosPlaneta">Datos del planeta:</div>
+</body>
+
+</html>

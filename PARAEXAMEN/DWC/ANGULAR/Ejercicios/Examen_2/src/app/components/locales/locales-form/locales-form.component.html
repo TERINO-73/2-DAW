@@ -1,0 +1,91 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">{{texto}}</h1>
+
+    <!-- Formulario -->
+    <form [formGroup]="form"  (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <div class="mb-3">
+                <label>firstName:</label>
+                <input type="text" class="form-control" required formControlName="firstName">
+                @if(form.controls["firstName"].invalid && (form.controls["firstName"].dirty || form.controls["firstName"].touched)){
+                    @if(form.controls["firstName"].errors?.["required"]){
+                        <div class="alert alert-danger">
+                            El firstName es obligatorio
+                        </div>
+                    }
+        
+                }
+            </div>   
+
+  
+
+
+
+
+                <div class="mb-3">
+                    <label>zona:</label>
+                    <input type="text" class="form-control" required formControlName="zona">
+                    <button routerLink="/zonas-list/{{local.id}}">Anade Zona</button>
+                    @if(form.controls["zona"].invalid && (form.controls["zona"].dirty || form.controls["zona"].touched)){
+                        @if(form.controls["zona"].errors?.["required"]){
+                            <div class="alert alert-danger">
+                                El zona es obligatorio
+                            </div>
+                        }
+            
+                    }
+                </div> 
+                
+                <div class="mb-3">
+                    <label>telefono:</label>
+                    <input type="text" class="form-control" required formControlName="telefono">
+                    @if(form.controls["telefono"].invalid && (form.controls["telefono"].dirty || form.controls["telefono"].touched)){
+                        @if(form.controls["telefono"].errors?.["required"]){
+                            <div class="alert alert-danger">
+                                El telefono es obligatorio
+                            </div>
+                        }
+            
+                    }
+                </div> 
+
+                <div class="mb-3">
+                    <label>direccion:</label>
+                    <input type="text" class="form-control" required formControlName="direccion">
+                    @if(form.controls["direccion"].invalid && (form.controls["direccion"].dirty || form.controls["direccion"].touched)){
+                        @if(form.controls["direccion"].errors?.["required"]){
+                            <div class="alert alert-danger">
+                                El direccion es obligatorio
+                            </div>
+                        }
+            
+                    }
+                </div> 
+
+                <div class="mb-3">
+                    <label>observaciones:</label>
+                    <input type="text" class="form-control" required formControlName="observaciones">
+                    @if(form.controls["observaciones"].invalid && (form.controls["observaciones"].dirty || form.controls["observaciones"].touched)){
+                        @if(form.controls["observaciones"].errors?.["required"]){
+                            <div class="alert alert-danger">
+                                El observaciones es obligatorio
+                            </div>
+                        }
+            
+                    }
+                </div> 
+        </div>
+
+        <!-- Botones -->
+        <div class="mb-3 d-grid gap-2 d-md-flex">
+
+            <button type="submit" class="btn btn-primary"  (click)="anadirYeditarLocal()" style="min-width: 150px;">{{texto}}</button>
+            <button type="button" class="btn btn-secondary" routerLink="/" style="min-width: 150px;">Cancel</button>
+
+        </div>
+
+
+    </div>
+</form>
+

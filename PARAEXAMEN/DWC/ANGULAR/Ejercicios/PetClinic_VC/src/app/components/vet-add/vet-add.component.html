@@ -1,0 +1,56 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">{{ addMode ? 'Add Vet' : 'Edit Vet' }}</h1>
+
+    <!-- Formulario -->
+    <form #vetForm="ngForm" name="vetForm" (ngSubmit)="onSubmit(vetForm.value)">
+
+        <div class="mb-3">
+            <label class="form-label">First Name:</label>
+            <input type="text" name="firstName" required [(ngModel)]="vet.firstName" #firstName="ngModel"
+                class="form-control">
+            <div class="text-danger" [hidden]="firstName.valid || firstName.pristine">
+                First name is required
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Last Name:</label>
+            <input type="text" name="lastName" required [(ngModel)]="vet.lastName" #lastName="ngModel"
+                class="form-control">
+            <div class="text-danger" [hidden]="lastName.valid || lastName.pristine">
+                Last name is required
+            </div>
+        </div>
+
+        <!-- <div class="mb-3">
+            <label class="form-label">Specialties:</label>
+            <select name="specialties" multiple [(ngModel)]="idSelectedSpecialties" class="form-check">
+                @for (specialty of specialties; track $index) {
+                <option [value]="specialty.id">{{ specialty.name }}</option>
+                }
+            </select>
+        </div> -->
+        <div class="mb-3">
+            <label class="form-label">Specialties:</label><br>
+            <p-multiSelect [options]="specialties" [(ngModel)]="idSelectedSpecialties" optionLabel="name"
+                optionValue="id" class="form-check" name="specialties">
+            </p-multiSelect>
+        </div>
+
+
+
+
+        <!-- Botones -->
+        <div class="mb-3 d-grid gap-2 d-md-flex">
+            <button type="submit" class="btn btn-primary" [disabled]="!vetForm.valid" style="min-width: 150px;">
+                {{ addMode ? 'Add Vet' : 'Edit Vet' }}
+            </button>
+            <button type="button" class="btn btn-secondary" routerLink="/vetList" style="min-width: 150px;">
+                Cancel
+            </button>
+        </div>
+
+    </form>
+
+</div>

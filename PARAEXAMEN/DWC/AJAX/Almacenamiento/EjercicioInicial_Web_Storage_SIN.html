@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>   
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>Ejemplo Web Storage</title>
+		<style>
+		div{
+			border: 2px solid blue;
+			margin: 2em;
+			
+			padding: 1em;
+		}
+		
+		</style>
+    <script type="text/javascript">
+      	window.onload = () => {
+
+		document.getElementById("btGuardar").onclick = guardarDatos;
+		document.getElementById("btMostrar").onclick = mostrarDato;
+		document.getElementById("btContenido").onclick = ContenidoTodoWebStorage;
+		document.getElementById("btBorrarDato").onclick = BorrarDato;
+		document.getElementById("btBorrarTodo").onclick = BorrarTodo;
+			
+	};
+
+	function guardarDatos(){
+		
+		localStorage.setItem(document.getElementById("etiqueta").value, document.getElementById("dato").value);
+
+	}
+
+	function mostrarDato(){
+		document.getElementById("sal").innerHTML = localStorage.getItem(document.getElementById("etiqueta").value);
+	}
+
+	function ContenidoTodoWebStorage(){
+		var i = localStorage.length;
+		var contenido = document.getElementById("contenido");
+
+		contenido.innerHTML = "Total elementos en LocalStorage " +i+ "<br/>"
+
+		for(let i = 0; i < localStorage.length; i++)
+		contenido.innerHTML += "Elemento '"+i+ "':"+localStorage.getItem(i)+"<br/>";
+	}
+
+	function BorrarTodo(){
+		localStorage.clear()
+
+
+	}
+	function BorrarDato(){
+		localStorage.removeItem(document.getElementById("etiqueta").value);
+
+	}
+      
+      
+    </script>
+  </head>
+  
+  <body>
+
+    <h3>Esto es un ejermplo de Web Storage</h3>
+    
+    <label>Nombre: </label>
+		<input type="text" name="etiqueta" id="etiqueta">
+		<br><br>
+		<label>Dato: </label>
+		<input type="text" name="dato" id="dato">
+    <br /><br />
+		
+		<hr>
+		<br><br>
+    <button id="btGuardar">Guardar Dato</button> 
+    <button id="btMostrar">Mostrar Dato</button> 
+    <button id="btContenido">Contenido del Web Storage</button> 
+		
+		<button id="btBorrarDato">Borrar Dato</button> 
+		<button id="btBorrarTodo">Borrar Todo</button> 
+		
+    <p>
+    	<div id="sal">
+    		Aquí ponemos el dato leido del localStorage
+    	</div>
+    	<div id="nvisitas">
+    		Aquí se muestra el número de visitas
+    	</div>
+    </p>
+    <p>
+    <div id="contenido">
+    	Contenido de todo el Web Storage
+    </div>
+    </p>
+    
+  </body>
+  
+</html>

@@ -1,0 +1,81 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">{{ addMode ? 'Add Alumno' : 'Edit Alumno'}}</h1>
+
+    <!-- Formulario Reactivo -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        
+        <div class="mb-3">
+            <label>nombre:</label>
+            <input type="text" class="form-control" formControlName="nombre">
+            @if (form.controls["nombre"].invalid && (form.controls["nombre"].dirty || form.controls["nombre"].touched)) {
+                @if (form.controls["nombre"].errors?.["required"]) {
+                    <div class="alert alert-danger">El nombre es obligatorio</div>
+                }
+                @if (form.controls["nombre"].errors?.["minlength"]) {
+                    <div>El nombre debe tener al menos 9 caracteres</div>
+                }
+            }
+        </div>
+
+        <div class="mb-3">
+            <label>apellidos:</label>
+            <input type="text" class="form-control" formControlName="apellidos">
+            @if (form.controls["apellidos"].invalid && (form.controls["apellidos"].dirty || form.controls["apellidos"].touched)) {
+                @if (form.controls["apellidos"].errors?.["required"]) {
+                    <div class="alert alert-danger">El apellidos es obligatorio</div>
+                }
+                @if (form.controls["apellidos"].errors?.["minlength"]) {
+                    <div>El nombre debe tener al menos 9 caracteres</div>
+                }
+            }
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">sexo:</label>
+            <select class="form-control" formControlName="sexo">
+                
+                @for (sexo of sexos; track $index) {
+                    <option [value]="sexo.codigo">{{ sexo.nombre }}</option>
+                }
+            </select>
+            @if (form.controls["sexo"].invalid && (form.controls["sexo"].dirty || form.controls["sexo"].touched)) {
+                <div class="alert alert-danger">sexo es obligatorio</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label>fecha_nacimiento:</label>
+            <input type="date" class="form-control" formControlName="fecha_nacimiento">
+            @if (form.controls["fecha_nacimiento"].invalid && (form.controls["fecha_nacimiento"].dirty || form.controls["fecha_nacimiento"].touched)) {
+                @if (form.controls["fecha_nacimiento"].errors?.["required"]) {
+                    <div class="alert alert-danger">El fecha_nacimiento es obligatorio</div>
+                }
+            }
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">estado_civil:</label>
+            <select class="form-control" formControlName="estado_civil">
+                
+                @for (estado_civil of estadosciviles; track $index) {
+                    <option [value]="estado_civil.id">{{ estado_civil.nombre }}</option>
+                }
+            </select>
+            @if (form.controls["estado_civil"].invalid && (form.controls["estado_civil"].dirty || form.controls["estado_civil"].touched)) {
+                <div class="alert alert-danger">estado_civil es obligatorio</div>
+            }
+        </div>
+        
+
+        <!-- Botones -->
+        <div class="mb-3 d-grid gap-2 d-md-flex">
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid" style="min-width: 150px;">
+                {{ addMode ? 'Add Alumno' : 'Edit Alumno' }}
+            </button>
+            <button type="button" class="btn btn-secondary" routerLink="/alumnos-list/" style="min-width: 150px;">Cancel</button>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,78 @@
+<h2>{{facturaNumero}}</h2>
+<table class="table" border="1">
+    <tr>
+        <th>ID</th>
+        <th>CANTIDAD</th>
+        <th>CONCEPTO</th>
+        <th>PRECIO</th>
+        <th>TIPO IVA</th>
+        <th>IVA</th>
+        <th>TOTAL</th>
+        <th>Editar</th>
+        <th>Borrar</th>
+    </tr>
+
+    <tbody id="filas_tabla">
+        @for (d of detalles; track $index) {
+        <tr>
+            <td>{{d.id}}</td>
+            <td>{{d.cantidad}}</td>
+            <td>{{d.concepto}}</td>
+            <td>{{d.precio}}</td>
+            <td>{{d.tipo_iva}}</td>
+            <td>{{(d.precio * d.cantidad) * (d.tipo_iva / 100)}}</td>
+            <td>{{(d.precio * d.cantidad) + ((d.precio * d.cantidad) * (d.tipo_iva / 100))}}</td>
+            <td><button (click)="mostrarFormulario = !mostrarFormulario; detalleId = d.id">Editar</button></td>
+            <td><button (click)="borrar(d.id)">Borrar</button></td>
+        </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5">TOTALES: </td>
+            <!-- <td id="Tiva">{{calcularSumaIva()}}</td>
+            <td id="Ttotal">{{calcularSumaTotal()}}</td> -->
+        </tr>
+    </tfoot>
+</table>
+<br>
+<button (click)="volverAlInicio()">VOLVER</button>
+<button (click)="mostrarFormulario = !mostrarFormulario; detalleId = -1">Nuevo detalle</button>
+@if (mostrarFormulario) {
+<div>
+    <form #detalleForm="ngForm" (ngSubmit)="onSubmit()">
+        <fieldset>
+            <legend id="league">Alta en el servicio</legend>
+            <p>
+                <label for="cantidad">Cantidad: </label>
+                <input placeholder="Cantidad" type="text" name="cantidad" size="3" value="5"
+                    [(ngModel)]="detalle.cantidad" />
+            </p>
+            <p>
+                <label for="concepto">Concepto: </label>
+                <input placeholder="Concepto" type="text" name="concepto" size="44" value="Nuevo detalle"
+                    [(ngModel)]="detalle.concepto" />
+            </p>
+            <p>
+                <label for="precio">Precio: </label>
+                <input placeholder="Precio" type="text" name="precio" size="4" value="25"
+                    [(ngModel)]="detalle.precio" /> €
+            </p>
+
+            <p>
+                <label for="tipo_iva">Tipo IVA: </label>
+                <input placeholder="Tipo de IVA" type="text" name="tipo_iva" size="2" value="21"
+                    [(ngModel)]="detalle.tipo_iva" /> %
+            </p>
+
+        </fieldset>
+        <button type="submit">
+            @if (detalleId == -1) {
+            <p>Añadir detalle</p>
+            } @else {
+            <p>Modificar detalle</p>
+            }
+        </button>
+    </form>
+</div>
+}

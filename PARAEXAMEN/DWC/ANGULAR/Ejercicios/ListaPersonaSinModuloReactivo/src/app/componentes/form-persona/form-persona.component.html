@@ -1,0 +1,59 @@
+<form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+
+    <div class="mb-3">
+        <label>DNI:</label>
+        <input type="text" class="form-control" required formControlName="dni">
+        @if(form.controls["dni"].invalid && (form.controls["dni"].dirty || form.controls["dni"].touched)){
+            @if(form.controls["dni"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El DNI es obligatorio
+                </div>
+            }
+            @if(form.controls["dni"].errors?.["minlength"]){
+                <div>
+                    El DNI debe tener al menos 9 caracteres
+                </div>
+            }
+        }
+
+    </div>   
+    <div class="mb-3">
+        <label>NOMBRE:</label>
+        <input type="text" class="form-control" required formControlName="nombre">
+        @if(form.controls["nombre"].invalid && (form.controls["nombre"].dirty || form.controls["nombre"].touched)){
+            @if(form.controls["nombre"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El nombre es obligatorio
+                </div>
+            }
+            @if(form.controls["nombre"].errors?.["minlength"]){
+                <div>
+                    El nombre debe tener al menos 9 caracteres
+                </div>
+            }
+        }
+    </div>
+    
+    <div class="mb-3">
+        <label>APELLIDOS:</label>
+        <input type="text" class="form-control" required formControlName="apellidos">
+        @if(form.controls["apellidos"].invalid && (form.controls["apellidos"].dirty || form.controls["apellidos"].touched)){
+            @if(form.controls["apellidos"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El apellidos es obligatorio
+                </div>
+            }
+            @if(form.controls["apellidos"].errors?.["minlength"]){
+                <div>
+                    El apellidos debe tener al menos 9 caracteres
+                </div>
+            }
+        }
+    </div>
+    
+    <div class="row">
+        <button type="submit"  class="btn btn-primary col-2">{{textoBoton}}</button>
+        <button type="button" routerLink="/" role="button">CANCELAR</button>
+    </div>
+    </form>

@@ -1,0 +1,51 @@
+<h3>Pet Types</h3>
+<table id="pettypes">
+    <thead>
+        <th>Name</th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tbody>
+        @for (pettype of pettypes;track pettype.id;let element_id = $index){
+            <tr>
+                <td>
+                    <input [id]="element_id" [disabled]="!editando" #name type="text" [(ngModel)]="pettype.name" name="pettype_name">
+                </td>
+                <td><button (click)="editPettype(pettype,name,element_id)">
+                    @if(editando(element_id)){
+                        <span>Cancel</span>
+                    }
+                    @if(editando(element_id)){
+                        <span>Edit</span>
+                    }
+                </button>
+                @if(editando(element_id)){
+                    <button (click)="updatePettype(pettype)" [disabled]="!editando(element_id)">
+                        Save
+                    </button>
+                }
+                @if(editando(element_id)){
+                    <button (click)="deletePettype(pettype)">
+                        Delete
+                    </button>
+                }
+
+                </td>
+            </tr>
+        }
+        
+    </tbody>
+</table>
+<table>
+    @if(is_insert){
+        <div>
+            <app-pettype-add (onNew)="onNewPettype($event)"></app-pettype-add>
+        </div>
+    }
+    <div>
+        <a routerLink="/" routerLinkActive="active">
+            <button>Inicio</button>
+        </a>
+        <button (click)="showAddPettypeComponent()">Add</button>
+    </div>
+</table>

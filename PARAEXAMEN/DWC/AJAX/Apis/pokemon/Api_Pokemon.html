@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Envio de parametros con AJAX externo</title>
+	<style type="text/css">
+        body {
+            background: linear-gradient(to bottom right, #48C9B0, #1ABC9C);
+            background-size: cover;
+            color: #ffffff;
+            font-family: "Arial", sans-serif;
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+        }
+
+        h1 {
+            font-family: 'Pokémon', sans-serif; 
+            font-size: 3em;
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+
+		table{
+			text-align: center;
+			margin-left: 33%;
+			margin-right: 33%;
+		}
+
+        table.estilo_tabla_pokemon {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: rgba(255, 215, 0, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+ 
+
+        .estilo_tabla_pokemon th {
+            background: linear-gradient(135deg, #FF5733, #C70039);
+            color: #FFF;
+            padding: 15px;
+            font-size: 1.4em;
+            border-bottom: 3px solid #FFD700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+
+
+        .estilo_tabla_pokemon td {
+            border: 1px solid #FFD700;
+            color: #333;
+            padding: 12px;
+            text-align: center;
+            font-size: 1em;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 215, 0, 0.2);
+
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        caption {
+            caption-side: bottom;
+            color: #FF5733;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        #detalle-pokemon {
+            color: #FFD700;
+            font-size: 1.3em;
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            max-width: 600px;
+            margin: 20px auto;
+
+        }
+		
+			</style>
+<script>
+	const limite = 10; // Número de Pokémon por página
+	let desplazamiento = 0; // Desplazamiento inicial en la lista de la Pokédex
+
+	// URL base de la API
+	const urlBase = "https://pokeapi.co/api/v2/pokemon";
+
+	// Función inicial para cargar los Pokémon
+	window.onload = () => {
+		obtenerListaPokemon();
+
+		document.getElementById("siguiente").onclick = (e) => {
+			e.preventDefault();
+			desplazamiento += limite;
+			obtenerListaPokemon();
+		};
+
+		document.getElementById("anterior").onclick = (e) => {
+			e.preventDefault();
+			desplazamiento = Math.max(0, desplazamiento - limite); // Evita que el desplazamiento sea negativo
+			obtenerListaPokemon();
+		};
+	};
+
+	// Función para obtener la lista de Pokémon según el desplazamiento y el límite
+	function obtenerListaPokemon() {
+		const url = `${urlBase}?limit=${limite}&offset=${desplazamiento}`;
+		fetch(url)
+			.then(res => res.json())
+			.then(data => {
+				mostrarListaPokemon(data.results);
+
+				// Habilita o deshabilita botones según el desplazamiento
+				document.getElementById("anterior").disabled = desplazamiento === 0;
+				document.getElementById("siguiente").disabled = desplazamiento + limite >= 1010; // Máximo número de Pokémon en la Pokédex actual
+			})
+			.catch(error => console.error("Error en la petición:", error));
+	}
+
+	// Función para mostrar los Pokémon en la tabla
+	function mostrarListaPokemon(listaPokemon) {
+		let cuerpoTabla = document.getElementById("cuerpo-pokemon");
+		cuerpoTabla.innerHTML = ""; // Limpiar la tabla
+
+		listaPokemon.forEach((pokemon) => {
+			fetch(pokemon.url)
+				.then(res => res.json())
+				.then(datosPokemon => {
+					let fila = document.createElement("tr");
+
+					// ID del Pokémon
+					let tdId = document.createElement("td");
+					tdId.textContent = datosPokemon.id;
+					fila.appendChild(tdId);
+
+					// Nombre con enlace a detalles
+					let tdNombre = document.createElement("td");
+					let aNombre = document.createElement("a");
+					aNombre.href = "#";
+					aNombre.textContent = datosPokemon.name;
+					aNombre.onclick = (e) => {
+						e.preventDefault();
+						mostrarDetallePokemon(datosPokemon);
+					};
+					tdNombre.appendChild(aNombre);
+					fila.appendChild(tdNombre);
+
+					// Imagen del Pokémon
+					let tdImagen = document.createElement("td");
+					let imagen = document.createElement("img");
+					imagen.src = datosPokemon.sprites.front_default;
+					imagen.alt = datosPokemon.name;
+					imagen.style.width = "50px"; // Tamaño de la imagen
+					tdImagen.appendChild(imagen);
+					fila.appendChild(tdImagen);
+
+					// Habilidades del Pokémon
+					let tdHabilidades = document.createElement("td");
+					tdHabilidades.textContent = datosPokemon.abilities
+						.map(habilidad => habilidad.ability.name)
+						.join(", ");
+					fila.appendChild(tdHabilidades);
+
+					// Enlace para ver movimientos
+					let tdMovimientos = document.createElement("td");
+					let aMovimientos = document.createElement("a");
+					aMovimientos.href = "#";
+					aMovimientos.textContent = "Posibles movimientos";
+					aMovimientos.onclick = (e) => {
+						e.preventDefault();
+						mostrarMovimientosPokemon(datosPokemon.moves);
+					};
+					tdMovimientos.appendChild(aMovimientos);
+					fila.appendChild(tdMovimientos);
+
+					cuerpoTabla.appendChild(fila);
+				})
+				.catch(error => console.error("Error al cargar detalles del Pokémon:", error));
+		});
+	}
+
+	// Función para mostrar los detalles de un Pokémon en la sección de detalles
+	function mostrarDetallePokemon(pokemon) {
+		let divDetalle = document.getElementById("detalle-pokemon");
+		divDetalle.innerHTML = `
+			<h2>${pokemon.name}</h2>
+			<p>ID: ${pokemon.id}</p>
+			<p>Altura: ${pokemon.height}</p>
+			<p>Peso: ${pokemon.weight}</p>
+			<img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+		`;
+	}
+
+	// Función para mostrar los movimientos del Pokémon en la sección de detalles
+	function mostrarMovimientosPokemon(movimientos) {
+		let divDetalle = document.getElementById("detalle-pokemon");
+		divDetalle.innerHTML = `
+			<h2>Movimientos</h2>
+			<ul>
+				${movimientos.map(movimiento => `<li>${movimiento.move.name}</li>`).join("")}
+			</ul>
+		`;
+	}
+</script>
+</head>
+
+<body>
+    <h1>Listado de Pokémon</h1>
+    <div id="contenedor-tabla-pokemon">
+        <table id="tabla-pokemon">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Imagen</th>
+                    <th>Habilidades</th>
+                    <th>Movimientos</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpo-pokemon"></tbody>
+        </table>
+    </div>
+    <div id="controles-paginacion">
+        <button id="anterior" disabled>Anterior</button>
+        <button id="siguiente">Siguiente</button>
+    </div>
+    <div id="detalle-pokemon"></div>
+</body>
+
+</html>

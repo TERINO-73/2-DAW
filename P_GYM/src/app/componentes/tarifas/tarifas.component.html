@@ -1,0 +1,10 @@
+<div id="tarifasSection" *ngIf="isVisible" class="tarifas-container">
+    <h2>Nuestras Tarifas</h2>
+    <div class="tarifas-grid">
+      <div *ngFor="let tarifa of tarifas" class="tarifa">
+        <h3>{{ tarifa.nombre }}</h3>
+        <p class="precio">{{ tarifa.precio }}</p>
+        <p class="descripcion">{{ tarifa.descripcion }}</p>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Ejercicio 15 - Informaci�n sobre eventos</title>
+<style type="text/css">
+body {font-family: arial, helvetica;}
+#info {width:160px; border:thin solid silver; padding:.5em; position:fixed;}
+#info h1 {margin: 0;}
+</style>
+<script type="text/javascript">
+
+window.onload = function(){	
+document.onmousemove =obtenerInfoRaton;
+document.onkeyup = obtenerInfoTeclado;
+document.onkeypress = obtenerInfoTeclado;
+document.onkeydown = obtenerInfoTeclado;
+function muestraInformacion(mensaje) {
+	document.getElementById("info").innerHTML = '<h1>'+mensaje[0]+'</h1>';
+	for(var i=1; i<mensaje.length; i++) {
+		document.getElementById("info").innerHTML += '<p>'+mensaje[i]+'</p>';
+	}
+}
+function obtenerInfoRaton(elEvento) {
+  var evento = elEvento || window.event;
+  var coordenadaNX = evento.clientX;
+  var coordenadaNY = evento.clientY;
+  var coordenadaCX = evento.screenX;
+  var coordenadaCY = evento.screenY;
+  var coordenadaX = evento.pageX;
+  var coordenadaY = evento.pageY;
+  var mensaje = "Ratón"
+  var mensaje1 = "Navegador: [" + coordenadaNX + ", " + coordenadaNY+"]";
+  var mensaje2 = "Navegador: [" + coordenadaCX + ", " + coordenadaCY+"]";
+  var mensaje3 = "Navegador: [" + coordenadaX + ", " + coordenadaY+"]";
+  var array = new Array();
+	array[0] = mensaje;
+	array[1] = mensaje1;
+	array[2] = mensaje2;
+	array[3] = mensaje3;
+
+	muestraInformacion(array);
+}
+function obtenerInfoTeclado(elEvento) {
+  var evento = elEvento || window.event;
+  var keycode = evento.keycode;
+  var charCode = String.fromCharCode(evento.charCode);
+  var mensaje = "Teclado";
+  var mensaje1= "Keycode: ["+keycode+"]";
+  var mensaje2= "Caracter: ["+charCode+"]";
+  var array = new Array();
+	array[0] = mensaje;
+	array[1] = mensaje1 || 0;
+	array[2] = mensaje2;
+	array[3] = " ";
+
+	muestraInformacion(array);
+}
+
+
+}
+</script>
+</head>
+<body>
+<div id="info"></div>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</body>
+</html>

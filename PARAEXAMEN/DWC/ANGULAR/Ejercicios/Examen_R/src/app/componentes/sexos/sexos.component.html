@@ -1,0 +1,60 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">Owners List</h1>
+
+    <!-- Contenedor de la tabla -->
+    <div class="table-responsive">
+        <!-- Tabla owners -->
+        <table class="table table-hover">
+
+            <thead>
+                <!-- Encabezados de la tabla -->
+                <tr>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+
+                    <th>Acciones</th>
+                   
+                </tr>
+            </thead>
+
+            <tbody class="table-group-divider">
+                <!-- Contenido de la tabla -->
+
+                <!-- Recorrer array listOwners -->
+                 @for (sexo of listSexos; track $index) {
+                    <tr>
+                        
+                        <!-- Link hacia el detalle del propietario -->
+                        <td>{{sexo.codigo}}</td>
+                        <td>{{sexo.nombre}}</td>
+
+                        <!-- Botones -->
+                        <td>
+                            <button type="button" class="btn btn-warning" routerLink="/formSexo/{{sexo.codigo}}/{{sexo.nombre}}">Editar</button>
+                            <!-- <button type="button" class="btn btn-danger ms-2" (click)="eliminarSexo(sexo.codigo,sexo.nombre)>Borrar</button> -->
+                            <button type="button" (click)="eliminarSexo(sexo.codigo,sexo.nombre)">Borrar</button>
+                        </td>
+
+                    </tr>
+                 }
+            </tbody>
+            <tfoot>
+            
+                    <td>Sexos:{{listSexos.length}}</td>
+                 
+            </tfoot>
+
+        </table>
+        <div>
+            <button type="button" class="btn btn-dark" routerLink="/formSexo/-1">New Alumno</button>
+        </div>
+       
+    </div>
+       
+
+</div>
+
+
+  
+

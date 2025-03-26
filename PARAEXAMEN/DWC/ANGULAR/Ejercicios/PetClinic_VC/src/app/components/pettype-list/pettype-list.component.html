@@ -1,0 +1,39 @@
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <h1 class="text-center">Pet Types List</h1>
+
+    <!-- Tabla de tipos de mascotas -->
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Recorrer los tipos de mascotas con la nueva sintaxis @for -->
+            @for(type of pettypes; track $index) {
+            <tr>
+                <td>
+                    <input type="text" class="form-control" [value]="type.name" [disabled]="true" />
+                </td>
+                <td>
+                    <!-- Botones Editar y Eliminar -->
+                    <button class="btn btn-warning me-2" (click)="editType(type)" style="min-width: 100px;">Edit</button>
+                    <button class="btn btn-danger" (click)="eliminarType(type.id)" style="min-width: 100px;">Delete</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-dark" (click)="addNewType()" style="min-width: 150px;">New Type</button>
+
+    @if (showForm) {
+        <app-pettype-add 
+        [addMode]="addMode" 
+        [typeToEdit]="typeToEdit" 
+        (cancel)="showForm = false ; typeToEdit = null" 
+        (typeAddedMod)="ngOnInit()">
+    </app-pettype-add>
+    }
+</div>

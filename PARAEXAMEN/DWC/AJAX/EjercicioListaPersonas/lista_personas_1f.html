@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Ejercicio Listado Personas. AJAX</title>
+	<style type="text/css">
+		h3 {
+			color: red;
+		}
+
+		/* CSS para el formulario:   */
+		.formPersonas {
+			visibility: hidden;
+			position: absolute;
+
+			top: 20%;
+			left: 20%;
+			z-index: 11;
+			background-color: pink;
+			border: 2px solid maroon;
+			border-radius: 15px;
+			padding: 1em;
+			color: red;
+
+			opacity: 0;
+			transition: all 1s;
+		}
+
+		.formPersonas div label {
+			display: block;
+			margin-top: .5em;
+		}
+
+		.formPersonas .btn {
+			display: block;
+			margin-top: 1em;
+		}
+
+
+		.ver {
+			visibility: visible;
+			opacity: 1;
+		}
+	</style>
+	<script type="text/javascript" src="util2AJAX.js"></script>
+	<script type="text/javascript">
+		// Crea un nuevo objeto 'peti', ese objeto de la clase pAJAX(),
+		// tiene una función llamada 'peticion' que será utilizada
+		let peti = new pAJAX();
+		let url = "servidor.php";
+		let accion = { // Creamos un nuevo objeto para determinar la lo que usuario quiere realizar
+			tipo: 0, // 0 => Insertar; 1 => Modificar
+			id_persona: -1, // Por defecto, el id será "-1", en caso contrario se realizará la acción de modificar
+			texto_legend: "Añadir persona", // Atributo para modificar el texto de la leyenda
+			texto_boton: "Añadir", // Atributo para cambiar el texto según la acción a realizar
+			clase_css: "ver"
+		};
+
+		window.onload = function () {
+			cargarDatosUsuariosTabla();
+			// Cuando se pulsa el botón 'Añadir'/'Editar' se ejecuta la función 
+			document.getElementById("btAnade").onclick = anadePersona;
+
+			
+			document.getElementById("btNuevaPersona").onclick = mostrarParaAnadir;
+			document.getElementById("btCancelar").addEventListener("click", function (e) {
+				e.preventDefault();
+				document.getElementById("formPersonas").classList.remove("ver");
+			});
+		}
+
+		// Función que modifica los atributos del objeto 'accion'
+		// para que realice la inserción de una persona en la tabla
+		//
+		// Limpia el formulario de datos, actualiza los datos del formulario
+		// para que sean correctos y lo muestra al usuario finalmente
+		function mostrarParaAnadir() {
+			setAccion(0, "Añadir persona", "Añadir", -1);
+			limpiarFormulario();
+			actualizarFormulario();
+			mostrarFormulario();
+		}
+
+		// Función para indicar y cambiar los atributos del objeto 'accion'
+		function setAccion(tipo, texto_legend, texto_boton, id_persona) {
+			accion.tipo = tipo;
+			accion.texto_legend = texto_legend;
+			accion.texto_boton = texto_boton;
+			accion.id_persona = id_persona;
+		}
+
+		function limpiarFormulario() {
+			document.getElementById("dni").value = "";
+			document.getElementById("nombre").value = "";
+			document.getElementById("apellidos").value = "";
+		}
+
+		function actualizarFormulario() {
+			document.querySelector("#formPersonas legend").innerText = accion.texto_legend;
+			document.getElementById("btAnade").innerText = accion.texto_boton;
+		}
+
+		function mostrarFormulario() {
+			document.getElementById("formPersonas").classList.add("ver");
+		}
+
+		function cargarDatosUsuariosTabla() {
+			var p = { servicio: "listar" };
+			p = JSON.stringify(p);
+			peti.peticion(url, "post", muestraPersonas, p);
+		}
+
+		// Función modificada para añadir o modificar a una persona
+		function anadePersona(e) {
+			e.preventDefault();
+			let p;
+
+			if (accion.tipo === 0) {
+				p = {
+					servicio: "insertar",
+					dni: document.getElementById("dni").value,
+					nombre: document.getElementById("nombre").value,
+					apellidos: document.getElementById("apellidos").value
+				};
+			} else {
+				p = {
+					servicio: "modificar",
+					id: accion.id_persona,
+					dni: document.getElementById("dni").value,
+					nombre: document.getElementById("nombre").value,
+					apellidos: document.getElementById("apellidos").value
+				};
+				resetAccion();
+			}
+			peti.peticion(url, "post", muestraPersonas, JSON.stringify(p));
+			cancelarFormulario();
+		}
+
+		function resetAccion() {
+			setAccion(0, "Añadir persona", "Añadir", -1);
+		}
+
+		function muestraPersonas(datos) {
+			document.getElementById("filas_tabla").innerHTML = "";
+			llenaTabla(datos, document.getElementById("filas_tabla"));
+		}
+
+		function llenaTabla(objetosPersona, lugar) {
+			let arrayPersonas = objetosPersona.map(function (d) {
+				let botonBorrar = crearBoton("Borrar", "borrarPersona", d.ID, d.NOMBRE + " " + d.APELLIDOS);
+				let botonEditar = crearBoton("Editar", "anadirModificar", d.ID, d.NOMBRE + " " + d.APELLIDOS);
+				return [d.ID, d.DNI, d.NOMBRE, d.APELLIDOS, botonBorrar, botonEditar];
+			});
+
+			arrayPersonas.forEach((persona) => {
+				let fila = document.createElement("tr");
+				persona.forEach(datoPersona => {
+					let col = document.createElement("td");
+					if (typeof datoPersona === 'object') {
+						col.appendChild(datoPersona);
+					} else {
+						col.appendChild(document.createTextNode(datoPersona.toString()));
+					}
+					fila.appendChild(col);
+				});
+				lugar.appendChild(fila);
+			});
+		}
+
+		// Crea y devuelve un botón configurado para realizar una 
+		// acción específica
+		//
+		// funcion => nombre de la función que se ejecutará al hacer click
+		function crearBoton(texto, funcion, idpersona, nombreape) {
+			let boton = document.createElement("button");
+			boton.innerHTML = texto;
+			boton.dataset.idpersona = idpersona;
+			boton.dataset.nombreape = nombreape;
+			// window => hace referencia a toda la ventana del navegador
+			// Le dice que cuando el botón se clique, realice la función
+			// que se le ha pasado por parámetro
+			boton.onclick = window[funcion];
+			return boton;
+		}
+
+		function borrarPersona(e) {
+			e.preventDefault();
+			if (confirm("¿Deseas eliminar a " + this.dataset.nombreape + "?")) {
+				var p = { servicio: "borrar", id: this.dataset.idpersona };
+				peti.peticion(url, "POST", muestraPersonas, JSON.stringify(p));
+			}
+		}
+
+		// Función que 
+		function anadirModificar(e) {
+			e.preventDefault();
+			setAccion(1, "Modificar persona", "Guardar cambios", this.dataset.idpersona);
+			seleccionarPersonaEditar(accion.id_persona);
+		}
+
+		function seleccionarPersonaEditar(ID) {
+			var p = { servicio: "selPersonaID", id: ID };
+			peti.peticion(url, "POST", recibeNuevaPersona, JSON.stringify(p));
+		}
+
+		function recibeNuevaPersona(datos) {
+			document.getElementById("dni").value = datos.DNI;
+			document.getElementById("nombre").value = datos.NOMBRE;
+			document.getElementById("apellidos").value = datos.APELLIDOS;
+			actualizarFormulario();
+			mostrarFormulario();
+		}
+
+		function cancelarFormulario() {
+			document.getElementById("formPersonas").classList.remove("ver");
+		}
+	</script>
+</head>
+
+<body>
+	<h3>Registro de Usuarios</h3>
+
+	<div id="formPersonas" class="formPersonas">
+		<fieldset>
+			<legend>Alta en el servicio</legend> <!-- Modificar -->
+			<div>
+				<label for="dni">DNI</label>
+				<input type="text" id="dni" size="10" maxlength="9" value="27473339T" />
+			</div>
+			<div>
+				<label for="nombre">Nombre</label>
+				<input type="text" id="nombre" value="Marco Elio" />
+			</div>
+			<div>
+				<label for="apellidos">Apellidos</label>
+				<input type="text" id="apellidos" size="40" value="García Gomariz" />
+			</div>
+			<div class="btn">
+				<button id="btAnade" data-idpersona="-1">Añadir </button> <!-- Modificar -->
+				<button id="btCancelar">Cancelar</button>
+			</div>
+		</fieldset>
+	</div>
+
+	<br />
+	<button class="btn" id="btNuevaPersona">Nueva persona</button>
+	<br><br>
+	<table id="tabla_personas" border="1">
+		<tr>
+			<th>ID</th>
+			<th>DNI</th>
+			<th>NOMBRE</th>
+			<th>APELLIDOS</th>
+			<th>Borrar</th>
+			<th>Editar</th>
+		</tr>
+
+		<tbody id="filas_tabla">
+
+		</tbody>
+	</table>
+
+	<br><br>
+
+</body>
+
+</html>

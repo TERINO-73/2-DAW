@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Ejercicio CLASES en Javascript</title>
+
+    <style type="text/css">
+        #salida {
+            margin-left: 4%;
+        }
+    </style>
+    <script type="text/javascript">
+
+        //  Creamos la Clase nif:
+
+        //10
+        class nif {
+            constructor(dni = "", letra = "") {
+                if (dni == "") {
+                    this.dni = "";
+                    this.letra = "";
+                    this.letraCorrecta = "TRWAGMYFPDXBNJZSQVHLCKET"[this.dni % 23];
+                    this.valido = ((this.letra == this.letraCorrecta) && (this.dni.length = !8) && (this.letra.length = !1))
+                } else if (dni.length == 9) {
+                    this.dni = dni.substring(0, 8);
+                    this.letra = dni.substring(8);
+                    this.letraCorrecta = "TRWAGMYFPDXBNJZSQVHLCKET"[this.dni % 23];
+                    this.valido = ((this.letra == this.letraCorrecta) && (this.dni.length == 8) && (this.letra.length == 1))
+                } else {
+                    this.dni = dni;
+                    this.letra = letra;
+                    this.letraCorrecta = "TRWAGMYFPDXBNJZSQVHLCKET"[this.dni % 23];
+                    this.valido = ((this.letra == this.letraCorrecta) && (this.dni.length = !8) && (this.letra.length = !1))
+                }
+            }
+
+            mostrarNIF() {
+                return this.dni + this.letra
+            }
+
+            mostrarNIF_Correcto() {
+                return this.dni + this.letraCorrecta
+            }
+        }
+
+
+
+
+        //  Utilizamos la clase anteriormente definida:
+        function probar() {
+            var sal = "<p> Creamos dos nif´s nif1, nif2, nif3: <br>";
+            sal += "<hr><br>";
+
+            var nif1 = new nif("12345678", "M");
+
+            var nif2 = new nif("69696969T");
+
+            var nif3 = new nif("25072038F");
+
+            sal += "nif1 = " + nif1.mostrarNIF() + "<br/>";
+            sal += "nif1 valido = " + nif1.valido + "<br/>";
+            sal += "nif1 letraCorrecta = " + nif1.letraCorrecta + "<br/>";
+            sal += "nif1 (correcto) = " + nif1.mostrarNIF_Correcto() + "<br/>";
+
+            sal += "<hr><br>";
+
+            sal += "nif2 = " + nif2.mostrarNIF() + "<br/>";
+            sal += "nif2 valido = " + nif2.valido + "<br/>";
+            sal += "nif2 letraCorrecta = " + nif2.letraCorrecta + "<br/>";
+            sal += "nif2 (correcto) = " + nif2.mostrarNIF_Correcto() + "<br/>";
+
+            sal += "<hr><br>";
+
+            sal += "nif3 = " + nif3.mostrarNIF() + "<br/>";
+            sal += "nif3 valido = " + nif3.valido + "<br/>";
+            sal += "nif3 letraCorrecta = " + nif3.letraCorrecta + "<br/>";
+            sal += "nif3 (correcto) = " + nif3.mostrarNIF_Correcto() + "<br/>";
+
+            sal += "</p>";
+
+            document.getElementById("salida").innerHTML = sal;
+        }  //  probar
+
+        window.onload = function () {
+            document.getElementById("btnProbar").onclick = probar;
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <br>
+    <h2>Ejercicio CLASES en Javascript</h2>
+    <h3>Ejercicio crear la clase nif.</h3>
+    <p>
+        <button id="btnProbar">
+            Probar
+        </button>
+    </p>
+    <div id="salida">
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio select</title>
+    <script>
+        window.onload = function(){
+            
+            document.getElementById("rselect").onclick = anade;
+        }
+
+        function anade(){
+            var a = getElementById("cantidad").value;
+            for(var i=0; i > a ; i++){
+                console.log("a");
+                var opcion = document.createElement("option");
+                var contenido = document.createTextNode("Opcion " + i) ;
+                opcion.appendChild(contenido);
+                opcion.setAttribute('value' ,i);
+                document.getElementById("select").appendChild(opcion);
+
+            
+
+
+        }
+    </script> 
+</head>
+<body>
+    <h3>Ejercicio para rellenar un select</h3>
+    <button id="rselect">Rellena select</button>
+    <br>
+    <input type="text" id="cantidad" maxlength="4"><br>
+    <label for="select">Select generico</label>
+    <select id="select">
+        <option value="-1" id="gen">Opt</option>
+    </select>
+</body>
+</html>

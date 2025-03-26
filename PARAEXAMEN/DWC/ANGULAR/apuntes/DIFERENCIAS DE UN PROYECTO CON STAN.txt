@@ -1,0 +1,5 @@
+DIFERENCIAS DE UN PROYECTO CON STANDALONE Y SIN EL
+
+Estructura:
+		APP: Tiene las normales y aparte tiene el app.module.ts y  el app-routing.module.ts en esta segunda es donde tienes que 
+		      meter las rutas que meter las rutas donde CON el standalone las pones en el app.routes

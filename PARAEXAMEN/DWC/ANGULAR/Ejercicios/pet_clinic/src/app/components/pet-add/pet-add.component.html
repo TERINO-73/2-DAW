@@ -1,0 +1,29 @@
+<form class="form-horizontal" #petForm="ngForm" (ngSubmit)="onSubmit(petForm.value)">
+
+
+    
+    <div class="mb-3">
+        <label>NOMBRE OWNER:</label>
+        <input type="text" class="form-control" required [(ngModel)]="pet.owner.firstName" name="owner" #firsName="ngModel">       
+    </div>
+
+    <div class="mb-3">
+        <label>NOMBRE PET</label>
+        <input type="text" class="form-control" required [(ngModel)]="pet.name" name="name" #lastName="ngModel">
+    </div>
+
+    <div class="mb-3">
+        <label>BIRTHDATE:</label>
+        <input type="date" class="form-control" required [(ngModel)]="pet.birthDate" name="birthDate" #address="ngModel">
+    </div>
+    <div class="mb-3">
+        <label>TIPO:</label>
+        <input type="range" class="form-control" required [(ngModel)]="pet.type.name" name="type" #city="ngModel">
+    </div>
+
+    
+    <div class="row">
+        <button type="submit"  class="btn btn-primary col-2">{{textoBoton}}</button>
+        <button type="button" routerLink="/" role="button">CANCELAR</button>
+    </div>
+    </form>

@@ -1,0 +1,49 @@
+.horario-container {
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 50px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .horario-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .dia {
+    background: #007bff;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+    transition: transform 0.3s, background 0.3s;
+  }
+  
+  .dia:hover {
+    transform: scale(1.1);
+    background: #0056b3;
+  }
+  
+  .clase {
+    background: #17a2b8;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: transform 0.3s, background 0.3s;
+  }
+  
+  .clase:hover {
+    transform: scale(1.1);
+    background: #138496;
+  }
+  
+  .hora {
+    display: block;
+    font-weight: bold;
+    margin-top: 5px;
+  }

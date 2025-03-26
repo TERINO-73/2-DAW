@@ -1,0 +1,249 @@
+/* Asegurar que el body y html ocupen toda la altura de la ventana */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    margin: auto;
+    padding: 20px;
+}
+
+/* Fondo blanco para caracteristicas y actividades */
+#caracteristicas, #actividades {
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 50px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Sección de información principal */
+.info-section {
+    position: relative;
+    background-image: url('../../../../public/assets/portada.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(1px);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+}
+
+/* Galería de fotos */
+#carouselExampleIndicators {
+    max-width: 800px; /* Ajusta este valor según el tamaño que quieras */
+    margin: 0 auto; /* Centra el carrusel */
+}
+
+.carousel-item img {
+    width: 100%; /* Cambia este valor según tus necesidades */
+    height: 500px; /* Puedes ajustar la altura según lo desees */
+    object-fit: cover; /* Esto mantiene la imagen en proporción sin estirarse */
+    margin: 0 auto; /* Centra la imagen */
+}
+
+/* Estilo para las flechas del carrusel */
+.carousel-control-prev, .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1; /* Asegura que las flechas no se superpongan */
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.col-md-3 img {
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.col-md-3 img:hover {
+    transform: scale(1.05);
+}
+
+/* Características del gimnasio */
+ul {
+    display: flex;
+    justify-content: center; /* Centrado de los iconos */
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    list-style: none;
+    margin: 0 15px; /* Reduce la distancia entre los iconos */
+}
+
+ul li a {
+    width: 60px;  /* Ajustamos el tamaño de los iconos */
+    height: 60px;
+    background-color: #fff;
+    text-align: center;
+    line-height: 60px; /* Centrado vertical */
+    font-size: 30px; /* Tamaño de los iconos */
+    display: block;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #fff;
+    z-index: 1;
+}
+
+ul li a .icon {
+    position: relative;
+    color: #262626;
+    transition: .5s;
+    z-index: 3;
+}
+
+ul li a:hover .icon {
+    color: #fff;
+    transform: rotateY(360deg);
+}
+
+ul li a:before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f00;
+    transition: .5s;
+    z-index: 2;
+}
+
+ul li a:hover:before {
+    top: 0;
+}
+
+ul li:nth-child(1) a:before {
+    background: #3b5999; /* Facebook */
+}
+
+ul li:nth-child(2) a:before {
+    background: #55acee; /* Twitter */
+}
+
+ul li:nth-child(3) a:before {
+    background: #0077b5; /* LinkedIn */
+}
+
+ul li:nth-child(4) a:before {
+    background: #dd4b39; /* Google+ */
+}
+
+/* Estilos específicos para características */
+.caracteristica {
+    display: flex;
+    align-items: center;
+}
+
+.caracteristica .icono {
+    width: 50px;
+    height: auto;
+}
+
+/* Actividades y cursos */
+.actividad img.actividad-img {
+    width: 100%;  /* Ajustar para que las imágenes no se reduzcan más de lo necesario */
+    max-width: 400px; /* Puedes ajustar el tamaño máximo */
+    display: block;
+    margin: 0 auto;
+}
+
+/* Botón de tarifas */
+.btn-info {
+    background-color: #17a2b8;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+}
+
+/* Eliminamos el contenedor del footer */
+/* Estilos para el footer */
+footer {
+    width: 100%; /* Asegura que el footer ocupe todo el ancho */
+    background: #343a40;
+    color: white;
+    padding: 20px 0;
+    margin-top: auto; /* Empuja el footer al fondo */
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Sección de iconos en el footer */
+footer p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.btn-light {
+    margin-top: 10px;
+    background-color: white;
+    border: 1px solid #007bff;
+    color: #007bff;
+    font-size: 18px;
+    padding: 8px 15px;
+    transition: 0.3s;
+}
+
+.btn-light:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Estilo para el botón de contacto */
+footer .btn-light {
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid #007bff;
+    color: #007bff;
+    font-size: 18px;
+    padding: 8px 15px;
+    transition: 0.3s;
+}
+
+footer .btn-light:hover {
+    background-color: #007bff;
+    color: white;
+}

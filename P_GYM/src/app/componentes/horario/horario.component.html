@@ -1,0 +1,14 @@
+<div id="horarioSection" *ngIf="isVisible" class="horario-container">
+    <h2>Horario Semanal</h2>
+    <div class="horario-grid">
+      <div *ngFor="let dia of diasSemana" class="dia">
+        <h3>{{ dia }}</h3>
+        <div *ngFor="let clase of horario">
+          <div *ngIf="clase.dia === dia" class="clase">
+            <p><strong>{{ clase.clase }}</strong></p>
+            <span class="hora">{{ clase.hora }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

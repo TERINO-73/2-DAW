@@ -1,0 +1,47 @@
+<form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+
+    <div class="mb-3">
+        <label>visitDate:</label>
+        <input type="text" class="form-control" required formControlName="visitDate">
+        @if(form.controls["visitDate"].invalid && (form.controls["visitDate"].dirty || form.controls["visitDate"].touched)){
+            @if(form.controls["visitDate"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El visitDate es obligatorio
+                </div>
+            }
+            
+        }
+
+    </div>   
+    <div class="mb-3">
+        <label>description:</label>
+        <input type="text" class="form-control" required formControlName="description">
+        @if(form.controls["description"].invalid && (form.controls["description"].dirty || form.controls["description"].touched)){
+            @if(form.controls["description"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El description es obligatorio
+                </div>
+            }
+           
+        }
+    </div>
+    
+    <div class="mb-3">
+        <label>pet_id:</label>
+        <input type="text" class="form-control" required formControlName="pet_id">
+        @if(form.controls["pet_id"].invalid && (form.controls["pet_id"].dirty || form.controls["pet_id"].touched)){
+            @if(form.controls["pet_id"].errors?.["required"]){
+                <div class="alert alert-danger">
+                    El pet_id es obligatorio
+                </div>
+            }
+           
+        }
+    </div>
+    
+    <div class="row">
+        <button type="submit"  class="btn btn-primary col-2">{{textoBoton}}</button>
+        <button type="button" routerLink="/" role="button">CANCELAR</button>
+    </div>
+    </form>
